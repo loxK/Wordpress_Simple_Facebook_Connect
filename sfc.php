@@ -225,7 +225,7 @@ If you have already created one, please insert your API key, Application Secret,
 		
 		if (isset($connecturl)) {
 			$siteurl = trailingslashit(get_option('siteurl'));
-			if (strpos($siteurl, $connecturl) === false) {
+			if (!$connecturl || strpos($siteurl, $connecturl) === false) {
 				$error = true;
 				echo '<p class="error">Your Facebook Application\'s "Connect URL" is configured incorrectly. It is currently set to "'. 
 				$connecturl . "\" when it should be set to \"{$siteurl}\" .</p>";
