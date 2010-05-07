@@ -44,7 +44,7 @@ function sfc_connect_shortcode() {
 	$login ='<fb:login-button perms="email" v="2" size="medium" onlogin="window.location=\'';
 	$login .= wp_login_url();
 	$login .= "?redirect_to='+document.URL;\"";
-	$login .= '><fb:intl>Connect with Facebook</fb:intl></fb:login-button>';
+	$login .= '></fb:login-button>';
 	return $login;
 }
 add_shortcode('fb-connect', 'sfc_connect_shortcode');
