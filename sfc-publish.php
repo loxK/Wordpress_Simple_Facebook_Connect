@@ -64,9 +64,7 @@ function sfc_publish_auto_callback() {
 	if (!isset($options['autopublish_profile']) || !$options['autopublish_profile']) $options['autopublish_profile'] = false;
 	?>
 	<p><label><?php 
-	_e('Automatically Publish to Facebook', 'sfc');
-	if ($options['fanpage']) echo 'Fan Page';
-	else _e('Application', 'sfc'); 
+	echo sprintf( __('Automatically Publish to Facebook %s', 'sfc'), ($options['fanpage'] ? __('Fan Page', 'sfc') : __('Application', 'sfc')) );
 	?>: <input type="checkbox" name="sfc_options[autopublish_app]" value="1" <?php checked('1', $options['autopublish_app']); ?> /></label> 
 	<?php if (!$options['fanpage']) _e( '(Note: This does not work due to a <a href="http://bugs.developers.facebook.com/show_bug.cgi?id=8184">Facebook bug</a>.)', 'sfc'); ?>
 	</p>
