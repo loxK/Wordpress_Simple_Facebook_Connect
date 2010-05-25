@@ -100,6 +100,7 @@ FB.ensureInit(function () {
 <?php 
 	if ($options['fanpage']) {
 		try {
+		    $add_auths = false;
 			$result = $fb->api_client->users_hasAppPermission('publish_stream', $options['fanpage']);
 			if (!$result) $add_auths=true;
 		} catch (Exception $e) {
