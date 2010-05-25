@@ -182,7 +182,7 @@ function sfc_publish_meta_box( $post ) {
 	}
 	
 	if ($post->post_status !== 'publish') {
-		echo '<p>' . __(' publishing the post, you can send it to Facebook from here.','sfc') .'</p>';
+		echo '<p>' . __('After publishing the post, you can send it to Facebook from here.','sfc') .'</p>';
 		return;
 	}
 	
@@ -261,7 +261,7 @@ function sfc_publish_meta_box( $post ) {
 	}
 
 	function sfcShowPubButtons() {
-		jQuery('#sfc-publish-buttons').html('<input type="button" class="button-primary" onclick="sfcPublish(); return false;" value="<?php echo sprintf(__('Publish to Facebook %s', 'sfc'),($options["fanpage"] ? __("Fan Page", 'sfc'): __("Application", 'sfc'))); ?>" /><input type="button" class="button-primary" onclick="sfcPersonalPublish(); return false;" value="<?php _e('Publish to your Facebook Profile', 'sfc') ?>" />');
+		jQuery('#sfc-publish-buttons').html('<input type="button" class="button-primary" onclick="sfcPublish(); return false;" value="<?php echo addslashes(sprintf(__('Publish to Facebook %s', 'sfc'),($options["fanpage"] ? __("Fan Page", 'sfc'): __("Application", 'sfc')))); ?>" /><input type="button" class="button-primary" onclick="sfcPersonalPublish(); return false;" value="<?php _e('Publish to your Facebook Profile', 'sfc') ?>" />');
 	}
 	
 	FB.ensureInit(function(){
