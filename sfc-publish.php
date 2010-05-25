@@ -261,12 +261,12 @@ function sfc_publish_meta_box( $post ) {
 	}
 
 	function sfcShowPubButtons() {
-		jQuery('#sfc-publish-buttons').html('<input type="button" class="button-primary" onclick="sfcPublish(); return false;" value="<?php $_e('Publish to Facebook', 'sfc') ?> <?php if ($options["fanpage"]) _e("Fan Page", 'sfc'); else echo  _e("Application", 'sfc'); ?>" /><input type="button" class="button-primary" onclick="sfcPersonalPublish(); return false;" value="<?php $_e('Publish to your Facebook Profile', 'sfc') ?>" />');
+		jQuery('#sfc-publish-buttons').html('<input type="button" class="button-primary" onclick="sfcPublish(); return false;" value="<?php echo sprintf(__('Publish to Facebook %s', 'sfc'),($options["fanpage"] ? __("Fan Page", 'sfc'): __("Application", 'sfc'))); ?>" /><input type="button" class="button-primary" onclick="sfcPersonalPublish(); return false;" value="<?php _e('Publish to your Facebook Profile', 'sfc') ?>" />');
 	}
 	
 	FB.ensureInit(function(){
 		FB.Connect.ifUserConnected(sfcShowPubButtons, function() {
-			jQuery('#sfc-publish-buttons').html('<fb:login-button v="2" perms="email" onlogin="sfcShowPubButtons();"><fb:intl><?php $_e('Connect with Facebook', 'sfc') ?></fb:intl></fb:login-button>');
+			jQuery('#sfc-publish-buttons').html('<fb:login-button v="2" perms="email" onlogin="sfcShowPubButtons();"><fb:intl><?php _e('Connect with Facebook', 'sfc') ?></fb:intl></fb:login-button>');
 			FB.XFBML.Host.parseDomTree();
 		});
 	});
