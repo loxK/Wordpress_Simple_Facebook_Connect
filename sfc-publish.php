@@ -60,8 +60,8 @@ function sfc_publish_section_callback() {
 
 function sfc_publish_auto_callback() {
 	$options = get_option('sfc_options');
-	if (!$options['autopublish_app']) $options['autopublish_app'] = false;
-	if (!$options['autopublish_profile']) $options['autopublish_profile'] = false;
+	if (!isset($options['autopublish_app']) || !$options['autopublish_app']) $options['autopublish_app'] = false;
+	if (!isset($options['autopublish_profile']) || !$options['autopublish_profile']) $options['autopublish_profile'] = false;
 	?>
 	<p><label><?php 
 	_e('Automatically Publish to Facebook', 'sfc');
@@ -92,7 +92,7 @@ if ($options['fanpage']) {
     _e('<li>Fan Page Publish Permission is needed to publish stories to the Fan Page automatically.<br /><span id="sfc-fanpage-perm-check"></span></li>', 'sfc');
  } ?>
 </ul>
-<?php if ($options['user'] && $options['session_key']) {
+<?php if (isset($options['user']) && $options['user'] && $options['session_key']) {
 	?><p><?php _e('User ID and Session Key found! Automatic publishing is ready to go!', 'sfc') ?></p><?php
 } else { 
 	?><p><?php _e('Be sure to click the "Save Settings" button on this page after granting these permissions! This will allow SFC to save your user id and session key, for usage by the plugin when publishing posts to your profile and/or page.', 'sfc') ?></p><?php 
