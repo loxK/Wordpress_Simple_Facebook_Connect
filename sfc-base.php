@@ -3,6 +3,9 @@
  * This is the main code for the SFC Base system. It's included by the main "Simple Facebook Connect" plugin.
  */
 
+// load plugin locales
+load_plugin_textdomain( 'sfc', false, basename(dirname(__FILE__)) . '/languages/');
+
 // load the FB script into the head 
 add_action('wp_enqueue_scripts','sfc_featureloader');
 function sfc_featureloader() {
