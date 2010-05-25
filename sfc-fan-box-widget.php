@@ -4,7 +4,7 @@ Plugin Name: SFC - Fan Box Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Create a Fan Box for your sites sidebar.
 Author: Otto
-Version: 0.20
+Version: 0.21
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -116,7 +116,6 @@ class SFC_Fan_Box_Widget extends WP_Widget {
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['connections'] = intval($new_instance['connections']);
 		$instance['width'] = intval($new_instance['width']);
-		if ($instance['width'] < 200) $instance['width'] = 200;
 		$instance['height'] = intval($new_instance['height']);
 		$instance['stream'] = $new_instance['stream'] ? 1 : 0;	
 		$instance['logobar'] = $new_instance['logobar'] ? 1 : 0;	
@@ -144,13 +143,12 @@ class SFC_Fan_Box_Widget extends WP_Widget {
 <p><label for="<?php echo $this->get_field_id('connections'); ?>">Number of Fans to Show:
 <input class="widefat" id="<?php echo $this->get_field_id('connections'); ?>" name="<?php echo $this->get_field_name('connections'); ?>" type="text" value="<?php echo $connections; ?>" />
 </label></p>
-<p><label for="<?php echo $this->get_field_id('width'); ?>">Width of the widget in pixels (minimum 200):
+<p><label for="<?php echo $this->get_field_id('width'); ?>">Width of the widget in pixels:
 <input class="widefat" id="<?php echo $this->get_field_id('width'); ?>" name="<?php echo $this->get_field_name('width'); ?>" type="text" value="<?php echo $width; ?>" />
 </label></p>
 <p><label for="<?php echo $this->get_field_id('height'); ?>">Height of the widget in pixels (0 for automatic):
 <input class="widefat" id="<?php echo $this->get_field_id('height'); ?>" name="<?php echo $this->get_field_name('height'); ?>" type="text" value="<?php echo $height; ?>" />
 </label></p>
-
 		<?php
 	}
 }

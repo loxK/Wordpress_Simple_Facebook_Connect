@@ -4,7 +4,7 @@ Plugin Name: SFC - User Status Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Display your FB User Status in the sidebar, simply.
 Author: Otto
-Version: 0.20
+Version: 0.21
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -94,8 +94,12 @@ class SFC_User_Status_Widget extends WP_Widget {
 <p><label for="<?php echo $this->get_field_id('profileid'); ?>">Facebook User Profile Number:
 <input class="widefat" id="<?php echo $this->get_field_id('profileid'); ?>" name="<?php echo $this->get_field_name('profileid'); ?>" type="text" value="<?php echo $profileid; ?>" />
 </label></p>
-<p>(Your User Profile Number can be found on <a href="http://developers.facebook.com/tools.php?fbml">this page</a>.)</p>
+<?php 
+		$fbuid = sfc_get_user();
+		if ($fbuid) { ?>
+<p>Your User Profile Number is <?php echo $fbuid; ?>.</p>
 		<?php
+		}
 	}
 }
 add_action('widgets_init', create_function('', 'return register_widget("SFC_User_Status_Widget");'));

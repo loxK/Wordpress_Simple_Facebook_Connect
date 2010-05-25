@@ -2,9 +2,9 @@
 /*
 Plugin Name: SFC - Login
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
-Description: Integrates Facebook Login and Authentication to WordPress
+Description: Integrates Facebook Login and Authentication to WordPress. Log into your WordPress account with your Facebook credentials.
 Author: Otto
-Version: 0.20
+Version: 0.21
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -257,7 +257,7 @@ add_action('login_form','sfc_add_base_js');
 
 /*
 // generate facebook avatar code for users who login with Facebook
-// NOTE: This overrides Gravatar.
+// NOTE: This overrides Gravatar if you use it.
 //
 add_filter('get_avatar','sfc_login_avatar', 10, 5);
 function sfc_login_avatar($avatar, $id_or_email, $size = '96', $default = '', $alt = false) {
@@ -266,7 +266,7 @@ function sfc_login_avatar($avatar, $id_or_email, $size = '96', $default = '', $a
 	$fbuid = get_usermeta( $id_or_email, 'fbuid');
 	if ($fbuid) {
 		// return the avatar code
-		return "<fb:profile-pic class='avatar avatar-{$size} fbavatar' uid='{$fbuid}' facebook-logo='true' size='square' linked='false' width='{$size}' height='{$size}'></fb:profile-pic>";
+		return "<img width='{$size}' height='{$size}' class='avatar avatar-{$size} fbavatar' src='http://graph.facebook.com/{$fbuid}/picture?type=square' />";
 	}
 	return $avatar;
 }

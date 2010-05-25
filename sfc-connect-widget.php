@@ -2,9 +2,9 @@
 /*
 Plugin Name: SFC - Connect Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
-Description: Shows a "Connect with Facebook" button in the sidebar.
+Description: Shows a "Connect with Facebook" button in the sidebar which will log you into the site (should be used with SFC-Login plugin).
 Author: Otto
-Version: 0.20
+Version: 0.21
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -41,10 +41,13 @@ register_activation_hook(__FILE__, 'sfc_connect_widget_activation_check');
 // Shortcode for putting it into pages or posts directly
 // profile id is required. Won't work without it.
 function sfc_connect_shortcode() {
-	$login ='<fb:login-button perms="email" v="2" size="medium" onlogin="window.location=\'';
-	$login .= wp_login_url();
-	$login .= "?redirect_to='+document.URL;\"";
-	$login .= '></fb:login-button>';
+	$login ='<fb:login-button perms="email" v="2" size="medium" ';
+	
+	if (function_exists('sfc_login_activation_check')) {
+		$login .= 'onlogin="window.location=\''. wp_login_url() . "?redirect_to='+document.URL;\"";
+	}
+	
+	$login .= '><fb:intl></fb:intl></fb:login-button>';
 	return $login;
 }
 add_shortcode('fb-connect', 'sfc_connect_shortcode');

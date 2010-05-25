@@ -4,7 +4,7 @@ Plugin Name: SFC - Like Button
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Simple like button for use with SFC.
 Author: Otto
-Version: 0.20
+Version: 0.21
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -77,7 +77,13 @@ add_shortcode('fb-like', 'sfc_like_shortcode');
 
 function sfc_like_button_automatic($content) {
 	$options = get_option('sfc_options');
-	$button = get_sfc_like_button();
+	
+	$args = array(
+		'layout'=>$options['like_layout'],
+		'action'=>$options['like_action'],
+	);
+	
+	$button = get_sfc_like_button($args);
 	switch ($options['like_position']) {
 		case "before":
 			$content = $button . $content;
@@ -101,6 +107,8 @@ add_action('admin_init', 'sfc_like_admin_init');
 function sfc_like_admin_init() {
 	add_settings_section('sfc_like', 'Like Button Settings', 'sfc_like_section_callback', 'sfc');
 	add_settings_field('sfc_like_position', 'Like Button Position', 'sfc_like_position', 'sfc', 'sfc_like');
+	add_settings_field('sfc_like_layout', 'Like Button Layout', 'sfc_like_layout', 'sfc', 'sfc_like');
+	add_settings_field('sfc_like_action', 'Like Button Action', 'sfc_like_action', 'sfc', 'sfc_like');
 }
 
 function sfc_like_section_callback() {
@@ -111,10 +119,34 @@ function sfc_like_position() {
 	$options = get_option('sfc_options');
 	if (!$options['like_position']) $options['like_position'] = 'manual';
 	?>
-	<p><label><input type="radio" name="sfc_options[like_position]" value="before" <?php checked('before', $options['like_position']); ?> /> Before the content of your post</label></p>
-	<p><label><input type="radio" name="sfc_options[like_position]" value="after" <?php checked('after', $options['like_position']); ?> /> After the content of your post</label></p>
-	<p><label><input type="radio" name="sfc_options[like_position]" value="both" <?php checked('both', $options['like_position']); ?> /> Before AND After the content of your post </label></p>
-	<p><label><input type="radio" name="sfc_options[like_position]" value="manual" <?php checked('manual', $options['like_position']); ?> /> Manually add the button to your theme or posts (use the sfc_like_button function in your theme)</label></p>
+	<ul>
+	<li><label><input type="radio" name="sfc_options[like_position]" value="before" <?php checked('before', $options['like_position']); ?> /> Before the content of your post</label></li>
+	<li><label><input type="radio" name="sfc_options[like_position]" value="after" <?php checked('after', $options['like_position']); ?> /> After the content of your post</label></li>
+	<li><label><input type="radio" name="sfc_options[like_position]" value="both" <?php checked('both', $options['like_position']); ?> /> Before AND After the content of your post </label></li>
+	<li><label><input type="radio" name="sfc_options[like_position]" value="manual" <?php checked('manual', $options['like_position']); ?> /> Manually add the button to your theme or posts (use the sfc_like_button function in your theme)</label></li>
+	</ul>
+<?php 
+}
+
+function sfc_like_layout() {
+	$options = get_option('sfc_options');
+	if (!$options['like_layout']) $options['like_layout'] = 'standard';
+	?>
+	<ul>
+	<li><label><input type="radio" name="sfc_options[like_layout]" value="standard" <?php checked('standard', $options['like_layout']); ?> /> Standard</label></li>
+	<li><label><input type="radio" name="sfc_options[like_layout]" value="button_count" <?php checked('button_count', $options['like_layout']); ?> /> Button with counter</label></li>
+	</ul>
+<?php 
+}
+
+function sfc_like_action() {
+	$options = get_option('sfc_options');
+	if (!$options['like_action']) $options['like_action'] = 'like';
+	?>
+	<ul>
+	<li><label><input type="radio" name="sfc_options[like_action]" value="like" <?php checked('like', $options['like_action']); ?> /> Like</label></li>
+	<li><label><input type="radio" name="sfc_options[like_action]" value="recommend" <?php checked('recommend', $options['like_action']); ?> /> Recommend</label></li>
+	</ul>
 <?php 
 }
 

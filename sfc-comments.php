@@ -2,9 +2,9 @@
 /* 
 Plugin Name: SFC - Comments
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
-Description: Comments plugin for SFC (for sites that allow non-logged in commenting).
+Description: Allow users to leave comments using their Facebook info (without their logging into WordPress itself).
 Author: Otto
-Version: 0.20
+Version: 0.21
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -42,6 +42,13 @@ That will add the necessary pieces to allow the script to work.
 Hopefully, a future version of WordPress will make this simpler.
 
 */
+
+add_action('admin_init','sfc_comm_error_check');
+function sfc_comm_error_check() {
+	if ( get_option( 'comment_registration' ) ) {
+		add_action('admin_notices', create_function( '', "echo '<div class=\"error\"><p>SFC-Comments doesn\'t work with sites that require registration to comment. Use SFC-Login and SFC-Register to allow users to register on your site.</p></div>';" ) );
+	}
+}
 
 // if you don't want the plugin to ask for email permission, ever, then define this to true in your wp-config
 if ( !defined('SFC_DISABLE_EMAIL_PERMISSION') )
@@ -292,7 +299,7 @@ function sfc_comm_avatar($avatar, $id_or_email, $size = '96', $default = '', $al
 	$fbuid = get_comment_meta($id_or_email->comment_ID, 'fbuid', true);
 	if ($fbuid) {
 		// return the avatar code
-		return "<fb:profile-pic uid='{$fbuid}' class='avatar avatar-{$size} fbavatar' facebook-logo='true' size='square' linked='false' width='{$size}' height='{$size}'></fb:profile-pic>";
+		return "<img width='{$size}' height='{$size}' class='avatar avatar-{$size} fbavatar' src='http://graph.facebook.com/{$fbuid}/picture?type=square' />";
 	}
 	
 	// check for number@facebook.com email address (deprecated, auto-converts to new meta data)
@@ -301,7 +308,7 @@ function sfc_comm_avatar($avatar, $id_or_email, $size = '96', $default = '', $al
 		update_comment_meta($id_or_email->comment_ID, 'fbuid', $m[1]);
 		
 		// return the avatar code
-		return "<fb:profile-pic uid='{$m[1]}' class='avatar avatar-{$size} fbavatar' facebook-logo='true' size='square' linked='false' width='{$size}' height='{$size}'></fb:profile-pic>";
+		return "<img width='{$size}' height='{$size}' class='avatar avatar-{$size} fbavatar' src='http://graph.facebook.com/{$m[1]}/picture?type=square' />";
 	}
 	
 	return $avatar;

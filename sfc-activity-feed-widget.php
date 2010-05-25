@@ -4,7 +4,7 @@ Plugin Name: SFC - Activity Feed Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Create an Activity Feed for your sites sidebar.
 Author: Otto
-Version: 0.20
+Version: 0.21
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -82,30 +82,33 @@ class SFC_Activity_Feed_Widget extends WP_Widget {
 	function widget($args, $instance) {
 		extract( $args );
 		$title = apply_filters('widget_title', $instance['title']);
-		$instance['width'] = intval($instance['width']);
-		$instance['height'] = intval($instance['height']);
-		?>
-		<?php echo $before_widget; ?>
-		<?php if ( $title ) echo $before_title . $title . $after_title; ?>
-		<?php sfc_activity_feed($instance); ?>
-		<?php echo $after_widget; ?>
-		<?php
+		echo $before_widget;
+		if ( $title ) echo $before_title . $title . $after_title;
+		sfc_activity_feed($instance);
+		echo $after_widget;
 	}
 
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
-		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '', 'width'=>260, 'height'=>400) );
+		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '', 'width'=>260, 'height'=>400, 'bordercolor'=>'000000', 'font'=>'lucida+grande', 'colorscheme'=>'light') );
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['width'] = intval($new_instance['width']);
 		$instance['height'] = intval($new_instance['height']);
+		$instance['bordercolor'] = strip_tags($new_instance['bordercolor']);
+		$instance['colorscheme'] = strip_tags($new_instance['colorscheme']);
+		$instance['font'] = strip_tags($new_instance['font']);
 		return $instance;
 	}
 
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'width'=>260, 'height'=>400) );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'width'=>260, 'height'=>400, 'bordercolor'=>'000000', 'font'=>'lucida+grande', 'colorscheme'=>'light' ) );
 		$title = strip_tags($instance['title']);
 		$width = intval($instance['width']);
 		$height = intval($instance['height']);
+		$bordercolor = strip_tags($instance['bordercolor']);
+		if (empty($bordercolor)) $bordercolor = '000000';
+		$colorscheme = strip_tags($instance['colorscheme']);
+		$font = strip_tags($instance['font']);
 		?>
 <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> 
 <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
@@ -115,6 +118,25 @@ class SFC_Activity_Feed_Widget extends WP_Widget {
 </label></p>
 <p><label for="<?php echo $this->get_field_id('height'); ?>">Height of the widget in pixels:
 <input class="widefat" id="<?php echo $this->get_field_id('height'); ?>" name="<?php echo $this->get_field_name('height'); ?>" type="text" value="<?php echo $height; ?>" />
+</label></p>
+<p><label for="<?php echo $this->get_field_id('bordercolor'); ?>">Border color:
+<input class="widefat" id="<?php echo $this->get_field_id('bordercolor'); ?>" name="<?php echo $this->get_field_name('bordercolor'); ?>" type="text" value="<?php echo $bordercolor; ?>" />
+</label></p>
+<p><label for="<?php echo $this->get_field_id('colorscheme'); ?>">Color scheme:
+<select name="<?php echo $this->get_field_name('colorscheme'); ?>" id="<?php echo $this->get_field_id('colorscheme'); ?>">
+<option value="light" <?php selected('light', $colorscheme); ?>>light</option>
+<option value="dark" <?php selected('dark', $colorscheme); ?>>dark</option>
+</select>
+</label></p>
+<p><label for="<?php echo $this->get_field_id('font'); ?>">Font:
+<select name="<?php echo $this->get_field_name('font'); ?>" id="<?php echo $this->get_field_id('font'); ?>">
+<option value="arial" <?php selected('arial', $font); ?>>arial</option>
+<option value="lucide+grande" <?php selected('lucide+grande', $font); ?>>lucide grande</option>
+<option value="segoe+ui" <?php selected('segoe+ui', $font); ?>>segoe ui</option>
+<option value="tahoma" <?php selected('tahoma', $font); ?>>tahoma</option>
+<option value="trebuchet+ms" <?php selected('trebuchet+ms', $font); ?>>trebuchet ms</option>
+<option value="verdana" <?php selected('verdana', $font); ?>>verdana</option>
+</select>
 </label></p>
 		<?php
 	}

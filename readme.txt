@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%
 Tags: facebook, connect, simple, otto, otto42, javascript, comments, share, status
 Requires at least: 2.9.1
 Tested up to: 3.0
-Stable tag: 0.20
+Stable tag: 0.21
 
 == Description ==
 
@@ -13,6 +13,8 @@ Simple Facebook Connect is a series of plugins that let you add any sort of Face
 First, you activate and set up the base plugin, which makes your site have basic Facebook Connect functionality. Then, each of the add-on plugins will let you add small pieces of specific Facebook-related functionality, one by one.
 
 Requires WordPress 2.9.1 and PHP 5. 
+
+Works best with WordPress 3.0.
 
 **Current add-ons**
 
@@ -31,10 +33,10 @@ Requires WordPress 2.9.1 and PHP 5.
 * Fan Count Chicklet and Widget
 * Like Button and Shortcode
 * Upcoming Events Widget
+* Activity Feed Widget
 
 **Coming soon**
 
-* Pull comments back from Facebook published posts into your site
 * (Got more ideas? Tell me!)
 
 If you have suggestions for a new add-on, feel free to email me at otto@ottodestruct.com .
@@ -66,6 +68,8 @@ Then you have individual plugins, one for each piece of functionality. One for e
 
 You have to modify your theme to use the comments plugin.
 
+(Note: If you have WordPress 3.0 and a theme using the new comment_form() method, then this step is not necessary).
+
 In your comments.php file (or wherever your comments form is), you need to do the following.
 
 1. Find the three inputs for the author, email, and url information. They need to have those ID's on the inputs (author, email, url). This is what the default theme and all standardized themes use, but some may be slightly different. You'll have to alter them to have these ID's in that case.
@@ -81,11 +85,11 @@ In your comments.php file (or wherever your comments form is), you need to do th
 
 That will add the necessary pieces to allow the script to work.
 
-Hopefully, a future version of WordPress will make this simpler.
+If you're using WordPress 3.0 and the new "comments_form" code (like in the Twenty Ten theme), then this is unnecessary! Check ottopress.com for info on how to upgrade your theme to use the new 3.0 features.
 
 = The plugin causes an error with a missing "json_encode"! =
 
-I did say that this plugin was for WordPress 2.9 and up. 
+I did say that this plugin was for WordPress 2.9 and up.
 
 If you are using PHP 5.2 and up, json_encode is built in. If not, then WordPress 2.9 contains a backwards compatible version of it. Either way, many of the plugins need this function in order to do the Facebook sharing functionality properly. 
 
@@ -120,35 +124,27 @@ Check the page source. If you have a message in there that looks like this: "War
 
 Facebook avatars use slightly different code than other avatars. They should style the same, but not all themes will have this working properly, due to various theme designs and such. 
 
-However, it is almost always possible to correct this with some simple CSS adjustments. For this reason, they are placed inside a div with an "fbavatar" class, for you to use to style them as you need. Just use .fbavatar in your CSS and add styling rules to correct those specific avatars.
+However, it is almost always possible to correct this with some simple CSS adjustments. For this reason, they are given an "fbavatar" class, for you to use to style them as you need. Just use .fbavatar in your CSS and add styling rules to correct those specific avatars.
+
+Also note that Facebook "square" avatars are limited to 50 by 50 pixels in size. If your theme uses a bigger one, then it'll get scaled up and may look bad. There's no easy fix for this, as the other avatars offered by Facebook are not square shaped. If it returned those, then it could mess up many more themes. complain to Facebook and tell them to offer larger squared off avatars.
 
 = The login plugin won't let me connect my accounts! =
 
-A new security feature in the login plugin is email validation. 
+A new security feature in the login plugin is email validation.
 
 When you connect your account to Facebook, the plugin talks to Facebook behind the scenes and attempts to verify your email address. This means that your email on your WordPress account must match one of the email addresses attached to your Facebook account. If the matching process fails, you'll get an alert box telling you why it failed, and the accounts will not be linked.
 
-This is a very alpha process and I can't be sure I've worked all the bugs out. If you have a problem and you know that your two accounts share the same email address, then email me directly with the problem and I'll try to help you out and fix the plugin. Please include screenshots of your email address in both WordPress and Facebook to prove you've checked that possible problem.
+This is a very alpha process and I can't be sure I've worked all the bugs out. If you have a problem and you know that your two accounts share the same email address, then email me directly with the problem and I'll try to help you out and fix the plugin. Please include screenshots of your email address in both WordPress and Facebook to prove you've checked that possible problem, and also so I can check the code with that address myself.
 
-= Why does the comment plugin ask everybody to send them email? =
+= Why can't I automatically publish to my Application? =
 
-The comments plugin, as of version 0.10, asks for the Facebook user's permission to get their email address. Facebook uses a system called "proxy email", where it gives an email address back that is not the user's real email address, but which will forward emails to them. The comments plugin puts this information in the comment's email field. This is so that when you get the comment notification email, then the Reply-To section will actually work. You'll be able to reply back to the comment notification and the email will actually get to the user. This also lets plugins like Subscribe to Comments work.
-
-Sometime soon, Facebook is planning on changing their Email API, so this functionality may change or break. The plugin will be kept up to date with any changes Facebook makes, however, the permissions dialog will very likely remain.
-
-To disable this type permissions dialog, disable the option "Require Name and Email" in the WordPress Settings->Discussion screen.
-
-= Why can't I automatically publish to my Application/Fan Page? =
-
-Sorry, nothing I can do about it. There's a bug on Facebook preventing this: http://bugs.developers.facebook.com/show_bug.cgi?id=8184
+Sorry, nothing I can do about it. There's a bug (or design flaw, if you prefer) on Facebook preventing this for Applications: http://bugs.developers.facebook.com/show_bug.cgi?id=8184
 
 When they fix it, I'll turn this feature on. The code is there and done, it just needs to have that bug fixed.
 
+Note that you should be able to auto-publish to Fan Pages just fine.
+
 In the meantime, the manual publishing button for an Application or Fan Page works correctly. And automatic publishing of new posts to your personal profile works fine. Note: If you use a multi-user blog, this will publish to the user profile of whoever is publishing the post. That user must also have granted the extended permissions for it to work. Different people may see different settings there, so anybody doing publishing must have granted that permission if they want the post sent to Facebook automatically in any format.
-
-= All the email addresses I get from this look like @proxy.facebook.com! =
-
-Go to your FB Application, and edit the Settings. On the Advanced Page, there's a space for "email domain". Put your domain in there. Having that filled properly will give your users the ability to give you their real email addresses instead of the Facebook proxied ones.
 
 = How do I use this Fanbox custom CSS option? =
 Well, first you have to learn CSS.
@@ -178,7 +174,38 @@ if ( is_admin() ) {
 	require_once (dirname (__FILE__) . '/lib/shortcodes.php');
 }	
 
-Notice that it doesn't load the shortcodes.php files and such in the admin sections? That's why those shortcodes don't get processed. Copy those lines up into the is_admin section too and it should work. And if you're the author of the Nextgen Gallery plugin, why not adjust your plugin so the shortcodes work everywhere? Some other plugins might want to know what images are inside the posts too, you know.
+Notice that it doesn't load the shortcodes.php and nggfunctions.php files and such in the admin sections? That's why those shortcodes don't get processed. Copy those lines up into the is_admin section too and it should work. 
+
+If you're the author of the Nextgen Gallery plugin, why not adjust your plugin so the shortcodes work everywhere? Some other plugins might want to know what images are inside the posts too, you know. This plugin tries to process shortcodes to get what the post will actually look like on the page, but if your shortcode source code isn't loaded, then it can't do that.
+
+= How do I use this with multi-site across subdomains/subdirectories? =
+
+(This is a new feature to 0.21 and it has NOT been really tested well yet. You have been warned.)
+
+Many people want to set up a "network" of sites, and enable SFC across all of them. Furthermore, they'd like people to stay "connected" across them all, and to only use one Facebook Application to connect their users. This is entirely possible with a bit of setup.
+
+First, create your Facebook Application. It should use the base domain field as well as the normal fields. No subdirectories or subdomains anywhere. For this example, we'll use "example.com".
+
+Next, you can add these to your site's wp-config:
+define('SFC_API_KEY', 'xxxxx');
+define('SFC_APP_SECRET', 'xxxxx');
+define('SFC_APP_ID', 'xxxxx');
+define('SFC_FANPAGE', '(this one is optional)');
+define('SFC_IGNORE_ERRORS', true');
+
+The first four are the exact same settings as on the normal SFC base configuration screen, and they will override those settings for the entire network of sites. In fact, when those are defined, the corresponding settings options won't even appear. This may look odd at first.
+
+The last one is a special override that causes the normal URL check to be disabled. This is because your URLs won't match the Facebook settings, but in this case, they don't actually need to.
+
+With this setup, SFC *should* work across all your subdomains and subdirectories. So it'll work on example.com or blog.example.com or otto.example.com or whatever. It should also work on example.com/blog. 
+
+The "base domain" setting on your Facebook application is important. In this case, it MUST be set to the base domain (example.com), so that the cookies will be set there and thus will let you stay "connected" across the sites.
+
+Notes: 
+* SFC-Login may or may not work. It's hard to say. Try it, it might work. I need more info to debug this.
+* Using other base domains with the domain mapping plugin absolutely will NOT work. Period. The redirection to the base domain for login breaks SFC-Login, because there is no way for Facebook to stay connected across domain names. 
+
+Email me if you have problems... But only if you're also willing to help solve those problems, I can't reproduce most setups and I can't fix what I can't see.
 
 == Screenshots ==
 
@@ -193,6 +220,9 @@ Notice that it doesn't load the shortcodes.php files and such in the admin secti
 
 == Upgrade Notice ==
 
+= 0.21 =
+* Multi-Site support! Read the readme for more info.
+
 = 0.20 = 
 * This version adds correct and updated OpenGraph meta data to your site. If you've manually set your og:metadata in the theme, you'll want to remove it.
 
@@ -200,6 +230,15 @@ Notice that it doesn't load the shortcodes.php files and such in the admin secti
 * Interim bug-fix release. No major new feaures.
 
 == Changelog ==
+
+= 0.21 =
+* The main SFC base plugin now has a proper and working check for PHP 5 only systems. I think. I hope. I'm sick of people talking about "error on line 210" or what have you. Read the requirements, folks!
+* The base plugin now has ways to pre-define the main four settings (api-key, app-secret, app-id, and fanpage-id). You can add defines for each of them into your wp-config with these names: SFC_API_KEY, SFC_APP_SECRET, SFC_APP_ID, and SFC_FANPAGE. All of them are optional, and when defined they will no longer show up on the settings page. This may be useful for people using the multi-site capabilities of WP 3.0 and wanting to use a single application across domains. You can also define SFC_IGNORE_ERRORS to "true" to force the settings page to not display the "Incorrect URL" error. This is necessary for multi-user systems using a base domain application across multiple subdomains, as the error checker cannot account for that.
+* Facebook avatars now use the Graph API for displaying. This eliminates the fb:profile XFBML tag and makes it back into a normal IMG tag, like Gravatars and Twitter avatars are. This should remove styling problems people had, though they are still classed as "fbavatar" if you want to style them differently. Side note: Because of this, the Facebook logo on these avatars is now gone. Graph API has no way to force the logo.
+* Several like button options added.
+* Remove minimum width of Fanbox.
+* More options in activity feed widget.
+* Assorted bug fixes.
 
 = 0.20 =
 * Added Activity Feed widget.

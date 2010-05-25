@@ -4,7 +4,7 @@ Plugin Name: SFC - Publish
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Allows you to share your posts to your Facebook Application page. Activate this plugin, then look on the Edit Post pages for Facebook publishing buttons.
 Author: Otto
-Version: 0.20
+Version: 0.21
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -169,6 +169,7 @@ function sfc_publish_make_excerpt($text) {
 		$text = implode(' ', $words);
 	}
 	$text = html_entity_decode($text); // added to try to fix annoying &entity; stuff
+	$text = '<fb:intl>'.$text.'</fb:intl>'; // added to allow for translations
 	return $text;
 }
 
@@ -216,8 +217,8 @@ function sfc_publish_meta_box( $post ) {
 	}
 	
 	// build the attachment
-	$permalink = get_permalink($post->ID);
-	$attachment['name'] = $post->post_title;
+	$permalink = apply_filters('sfc_publish_permalink',get_permalink($post->ID),$post->ID);
+	$attachment['name'] = '<fb:intl>'.$post->post_title.'</fb:intl>';
 	$attachment['href'] = $permalink;
 	$attachment['description'] = sfc_publish_make_excerpt($post->post_content);
 	$attachment['comments_xid'] = urlencode($permalink);
@@ -340,7 +341,7 @@ function sfc_publish_automatic($id, $post) {
 	}
 
 	// build the attachment
-	$permalink = get_permalink($post->ID);
+	$permalink = apply_filters('sfc_publish_permalink',get_permalink($post->ID), $post->ID);
 	$attachment['name'] = $post->post_title;
 	$attachment['href'] = $permalink;
 	$attachment['description'] = sfc_publish_make_excerpt($post->post_content);
@@ -367,10 +368,6 @@ function sfc_publish_automatic($id, $post) {
 		if ($options['fanpage']) $who = $options['fanpage'];
 		else $who = $options['appid'];
 
-		// check to see if we can send to FB at all
-		$result = $fb->api_client->users_hasAppPermission('publish_stream', $who);
-		if (!$result) break;
-
 		$fb_post_id = $fb->api_client->stream_publish(null, json_encode($attachment), json_encode($action_links), null, $who);
 		
 		if ($fb_post_id) {
@@ -381,11 +378,6 @@ function sfc_publish_automatic($id, $post) {
 	
 	// publish to profile
 	if ($options['autopublish_profile'] && !get_post_meta($id,'_fb_post_id_profile',true)) {
-	
-		// check to see if we can send to FB at all
-		$result = $fb->api_client->users_hasAppPermission('publish_stream');
-		if (!$result) break; 
-
 		$fb_post_prof_id = $fb->api_client->stream_publish(null, json_encode($attachment), json_encode($action_links));
            
 		if ($fb_post_prof_id) {
