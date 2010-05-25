@@ -41,21 +41,21 @@ register_activation_hook(__FILE__, 'sfc_publish_activation_check');
 // add the meta boxes
 add_action('admin_menu', 'sfc_publish_meta_box_add');
 function sfc_publish_meta_box_add() {
-	add_meta_box('sfc-publish-div', 'Facebook Publisher', 'sfc_publish_meta_box', 'post', 'side');
-	add_meta_box('sfc-publish-div', 'Facebook Publisher', 'sfc_publish_meta_box', 'page', 'side');
+	add_meta_box('sfc-publish-div', __('Facebook Publisher', 'sfc'), 'sfc_publish_meta_box', 'post', 'side');
+	add_meta_box('sfc-publish-div', __('Facebook Publisher', 'sfc'), 'sfc_publish_meta_box', 'page', 'side');
 }
 
 // add the admin sections to the sfc page
 add_action('admin_init', 'sfc_publish_admin_init');
 function sfc_publish_admin_init() {
-	add_settings_section('sfc_publish', 'Publish Settings', 'sfc_publish_section_callback', 'sfc');
-	add_settings_field('sfc_publish_flags', 'Automatic Publishing', 'sfc_publish_auto_callback', 'sfc', 'sfc_publish');
-	add_settings_field('sfc_publish_extended_permissions', 'Extended Permissions', 'sfc_publish_extended_callback', 'sfc', 'sfc_publish');
+	add_settings_section('sfc_publish', __('Publish Settings', 'sfc'), 'sfc_publish_section_callback', 'sfc');
+	add_settings_field('sfc_publish_flags', __('Automatic Publishing', 'sfc'), 'sfc_publish_auto_callback', 'sfc', 'sfc_publish');
+	add_settings_field('sfc_publish_extended_permissions', __('Extended Permissions', 'sfc'), 'sfc_publish_extended_callback', 'sfc', 'sfc_publish');
 	wp_enqueue_script('jquery');
 }
 
 function sfc_publish_section_callback() {
-	echo "<p>Settings for the SFC-Publish plugin. The manual Facebook Publishing buttons can be found on the Edit Post or Edit Page screen, after you publish a post. If you can't find them, try scrolling down or seeing if you have the box disabled in the Options dropdown.</p>";
+	echo "<p>".__('Settings for the SFC-Publish plugin. The manual Facebook Publishing buttons can be found on the Edit Post or Edit Page screen, after you publish a post. If you can\'t find them, try scrolling down or seeing if you have the box disabled in the Options dropdown.', 'sfc')."</p>";
 }
 
 function sfc_publish_auto_callback() {
@@ -63,13 +63,14 @@ function sfc_publish_auto_callback() {
 	if (!$options['autopublish_app']) $options['autopublish_app'] = false;
 	if (!$options['autopublish_profile']) $options['autopublish_profile'] = false;
 	?>
-	<p><label>Automatically Publish to Facebook <?php
+	<p><label><?php 
+	_e('Automatically Publish to Facebook', 'sfc');
 	if ($options['fanpage']) echo 'Fan Page';
-	else echo 'Application'; 
+	else _e('Application', 'sfc'); 
 	?>: <input type="checkbox" name="sfc_options[autopublish_app]" value="1" <?php checked('1', $options['autopublish_app']); ?> /></label> 
-	<?php if (!$options['fanpage']) echo '(Note: This does not work due to a <a href="http://bugs.developers.facebook.com/show_bug.cgi?id=8184">Facebook bug</a>.)'; ?>
+	<?php if (!$options['fanpage']) _e( '(Note: This does not work due to a <a href="http://bugs.developers.facebook.com/show_bug.cgi?id=8184">Facebook bug</a>.)', 'sfc'); ?>
 	</p>
-	<p><label>Automatically Publish to Facebook Profile: <input type="checkbox" name="sfc_options[autopublish_profile]" value="1" <?php checked('1', $options['autopublish_profile']); ?> /></label></p>
+	<p><label><?php _e('Automatically Publish to Facebook Profile','sfc'); ?>: <input type="checkbox" name="sfc_options[autopublish_profile]" value="1" <?php checked('1', $options['autopublish_profile']); ?> /></label></p>
 <?php 
 }
 
@@ -81,19 +82,20 @@ function sfc_publish_extended_callback() {
 	include_once 'facebook-platform/facebook.php';
 	$fb=new Facebook($options['api_key'], $options['app_secret']);
 
-?><p>In order for the SFC-Publish plugin to be able to publish your posts automatically, you must grant some "Extended Permissions"
+_e('<p>In order for the SFC-Publish plugin to be able to publish your posts automatically, you must grant some "Extended Permissions"
 to the plugin.</p>
 <ul>
 <li>Offline Permission is needed to access your Page as if you were publishing manually.<br /><span id="sfc-offline-perm-check"></span></li>
-<li>Publish Permission is needed to publish stories to the stream automatically.<br /><span id="sfc-publish-perm-check"></span></li>
-<?php if ($options['fanpage']) { ?>
-<li>Fan Page Publish Permission is needed to publish stories to the Fan Page automatically.<br /><span id="sfc-fanpage-perm-check"></span></li>
-<?php } ?>
+<li>Publish Permission is needed to publish stories to the stream automatically.<br /><span id="sfc-publish-perm-check"></span></li>');
+
+if ($options['fanpage']) { 
+    _e('<li>Fan Page Publish Permission is needed to publish stories to the Fan Page automatically.<br /><span id="sfc-fanpage-perm-check"></span></li>', 'sfc');
+ } ?>
 </ul>
 <?php if ($options['user'] && $options['session_key']) {
-	?><p>User ID and Session Key found! Automatic publishing is ready to go!</p><?php
+	?><p><?php _e('User ID and Session Key found! Automatic publishing is ready to go!', 'sfc') ?></p><?php
 } else { 
-	?><p>Be sure to click the "Save Settings" button on this page after granting these permissions! This will allow SFC to save your user id and session key, for usage by the plugin when publishing posts to your profile and/or page.</p><?php 
+	?><p><?php _e('Be sure to click the "Save Settings" button on this page after granting these permissions! This will allow SFC to save your user id and session key, for usage by the plugin when publishing posts to your profile and/or page.', 'sfc') ?></p><?php 
 } ?>
 <script type="text/javascript">
 FB.ensureInit(function () {
@@ -177,12 +179,12 @@ function sfc_publish_meta_box( $post ) {
 	$options = get_option('sfc_options');
 	
 	if ($post->post_status == 'private') {
-		echo '<p>Why would you put private posts on Facebook, for all to see?</p>';
+		echo '<p>' . __('Why would you put private posts on Facebook, for all to see?','sfc') .'</p>';
 		return;
 	}
 	
 	if ($post->post_status !== 'publish') {
-		echo '<p>After publishing the post, you can send it to Facebook from here.</p>';
+		echo '<p>' . __(' publishing the post, you can send it to Facebook from here.','sfc') .'</p>';
 		return;
 	}
 	
@@ -261,18 +263,18 @@ function sfc_publish_meta_box( $post ) {
 	}
 
 	function sfcShowPubButtons() {
-		jQuery('#sfc-publish-buttons').html('<input type="button" class="button-primary" onclick="sfcPublish(); return false;" value="Publish to Facebook <?php if ($options["fanpage"]) echo "Fan Page"; else echo "Application"; ?>" /><input type="button" class="button-primary" onclick="sfcPersonalPublish(); return false;" value="Publish to your Facebook Profile" />');
+		jQuery('#sfc-publish-buttons').html('<input type="button" class="button-primary" onclick="sfcPublish(); return false;" value="<?php $_e('Publish to Facebook', 'sfc') ?> <?php if ($options["fanpage"]) _e("Fan Page", 'sfc'); else echo  _e("Application", 'sfc'); ?>" /><input type="button" class="button-primary" onclick="sfcPersonalPublish(); return false;" value="<?php $_e('Publish to your Facebook Profile', 'sfc') ?>" />');
 	}
 	
 	FB.ensureInit(function(){
 		FB.Connect.ifUserConnected(sfcShowPubButtons, function() {
-			jQuery('#sfc-publish-buttons').html('<fb:login-button v="2" perms="email" onlogin="sfcShowPubButtons();"><fb:intl>Connect with Facebook</fb:intl></fb:login-button>');
+			jQuery('#sfc-publish-buttons').html('<fb:login-button v="2" perms="email" onlogin="sfcShowPubButtons();"><fb:intl><?php $_e('Connect with Facebook', 'sfc') ?></fb:intl></fb:login-button>');
 			FB.XFBML.Host.parseDomTree();
 		});
 	});
 	
 	</script>
-	<div id="sfc-publish-buttons"><p>If you can see this, then there is some form of problem showing you the Facebook publishing buttons. This may be caused by a plugin conflict or some form of bad javascript on this page. Try reloading or disabling other plugins to find the source of the problem.</p></div>
+	<div id="sfc-publish-buttons"><p><?php _e('If you can see this, then there is some form of problem showing you the Facebook publishing buttons. This may be caused by a plugin conflict or some form of bad javascript on this page. Try reloading or disabling other plugins to find the source of the problem.', 'sfc') ?></p></div>
 	<?php
 }
 
@@ -357,7 +359,7 @@ function sfc_publish_automatic($id, $post) {
 	}
 
 	// Share link
-	$action_links[0]['text'] = 'Share';
+	$action_links[0]['text'] = __('Share', 'sfc');
 	$action_links[0]['href'] = 'http://www.facebook.com/share.php?u='.urlencode($permalink);
 	
 	// publish to page
@@ -408,3 +410,4 @@ function sfc_publish_validate_options($input) {
 	
 	return $input;
 }
+
