@@ -9,9 +9,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: __;_e\n"
-"X-Poedit-Basepath: .\n"
-"X-Poedit-SearchPath-0: .\n"
 
 #: sfc-activity-feed-widget.php:113
 #: sfc-live-stream-widget.php:104
@@ -23,7 +20,7 @@ msgstr ""
 #: sfc-find.php:81
 #: sfc-fan-box-widget.php:134
 msgid "Title:"
-msgstr ""
+msgstr "Titre:"
 
 #: sfc-upcoming-widget.php:115
 msgid "User ID:"
@@ -32,40 +29,40 @@ msgstr ""
 #: sfc-publish.php:44
 #: sfc-publish.php:45
 msgid "Facebook Publisher"
-msgstr ""
+msgstr "Publieur Facebook"
 
 #: sfc-publish.php:51
 msgid "Publish Settings"
-msgstr ""
+msgstr "Paramètres de publication"
 
 #: sfc-publish.php:52
 msgid "Automatic Publishing"
-msgstr ""
+msgstr "Publication automatique"
 
 #: sfc-publish.php:53
 msgid "Extended Permissions"
-msgstr ""
+msgstr "Permissions étendues"
 
 #: sfc-publish.php:58
 msgid "Settings for the SFC-Publish plugin. The manual Facebook Publishing buttons can be found on the Edit Post or Edit Page screen, after you publish a post. If you can't find them, try scrolling down or seeing if you have the box disabled in the Options dropdown."
-msgstr ""
+msgstr "Paramètres pour le plugin SFC-Publish. Les boutons pour publier manuellement  apparaissent sur les pages d'édition des articles et des pages. après leur publication. Si vous ne les trouvez pas, essayez de défiler la page, ou vérifiez que la boîte n'est pas désactivée dans la boîte de sélection des options."
 
 #: sfc-publish.php:67
 msgid "Automatically Publish to Facebook"
-msgstr ""
+msgstr "Publier automatiquement sur Facebook"
 
 #: sfc-publish.php:69
 #: sfc-publish.php:266
 msgid "Application"
-msgstr ""
+msgstr "Application"
 
 #: sfc-publish.php:71
 msgid "(Note: This does not work due to a <a href=\"http://bugs.developers.facebook.com/show_bug.cgi?id=8184\">Facebook bug</a>.)"
-msgstr ""
+msgstr "(Note: Ceci ne fonctionne pas à cause d'un <a href=\"http://bugs.developers.facebook.com/show_bug.cgi?id=8184\">bug Facebook</a>.)"
 
 #: sfc-publish.php:73
 msgid "Automatically Publish to Facebook Profile"
-msgstr ""
+msgstr "Publier automatiquement sur le profile Facebook"
 
 #: sfc-publish.php:85
 msgid ""
@@ -75,14 +72,19 @@ msgid ""
 "<li>Offline Permission is needed to access your Page as if you were publishing manually.<br /><span id=\"sfc-offline-perm-check\"></span></li>\n"
 "<li>Publish Permission is needed to publish stories to the stream automatically.<br /><span id=\"sfc-publish-perm-check\"></span></li>"
 msgstr ""
+"<p>In order for the SFC-Publish plugin to be able to publish your posts automatically, you must grant some \"Extended Permissions\"\n"
+"to the plugin.</p>\n"
+"<ul>\n"
+"<li>Offline Permission is needed to access your Page as if you were publishing manually.<br /><span id=\"sfc-offline-perm-check\"></span></li>\n"
+"<li>Publish Permission is needed to publish stories to the stream automatically.<br /><span id=\"sfc-publish-perm-check\"></span></li>"
 
 #: sfc-publish.php:92
 msgid "<li>Fan Page Publish Permission is needed to publish stories to the Fan Page automatically.<br /><span id=\"sfc-fanpage-perm-check\"></span></li>"
-msgstr ""
+msgstr "<li>La permission \"Fan Page Publish\" est nécessaire pour publier sur votre page de fans automatiquement.<br /><span id=\"sfc-fanpage-perm-check\"></span></li>"
 
 #: sfc-publish.php:96
 msgid "User ID and Session Key found! Automatic publishing is ready to go!"
-msgstr ""
+msgstr "L'ID utilisateur et la clé de Session on été trouvés! La publication automatique est prête à fonctionner!"
 
 #: sfc-publish.php:98
 msgid "Be sure to click the \"Save Settings\" button on this page after granting these permissions! This will allow SFC to save your user id and session key, for usage by the plugin when publishing posts to your profile and/or page."
@@ -98,19 +100,19 @@ msgstr ""
 
 #: sfc-publish.php:266
 msgid "Publish to Facebook"
-msgstr ""
+msgstr "Publier sur Facebook"
 
 #: sfc-publish.php:266
 msgid "Fan Page"
-msgstr ""
+msgstr "Page Fan"
 
 #: sfc-publish.php:266
 msgid "Publish to your Facebook Profile"
-msgstr ""
+msgstr "Publier sur votre profile Facebook"
 
 #: sfc-publish.php:271
 msgid "Connect with Facebook"
-msgstr ""
+msgstr "Connection avec Facebook"
 
 #: sfc-publish.php:277
 msgid "If you can see this, then there is some form of problem showing you the Facebook publishing buttons. This may be caused by a plugin conflict or some form of bad javascript on this page. Try reloading or disabling other plugins to find the source of the problem."
@@ -118,50 +120,50 @@ msgstr ""
 
 #: sfc-publish.php:362
 msgid "Share"
-msgstr ""
+msgstr "Partager"
 
 #: sfc-base.php:51
 #: sfc-base.php:60
 msgid "Settings"
-msgstr ""
+msgstr "Paramètre"
 
 #: sfc-base.php:52
 msgid "Donate"
-msgstr ""
+msgstr "Faites une donation"
 
 #: sfc-base.php:69
 #, php-format
 msgid "Simple Facebook Connect needs configuration information on its <a href=\"%s\">settings</a> page."
-msgstr ""
+msgstr "Simple Facebook Connect à besoin d\\'être <a href=\"%s\">configurer</a>."
 
 #: sfc-base.php:76
 msgid "Main Settings"
-msgstr ""
+msgstr "Paramètre généraux"
 
 #: sfc-base.php:77
 msgid "Facebook API Key"
-msgstr ""
+msgstr "API Key Facebook"
 
 #: sfc-base.php:78
 msgid "Facebook Application Secret"
-msgstr ""
+msgstr "Clé secrète Facebook"
 
 #: sfc-base.php:79
 msgid "Facebook Application ID"
-msgstr ""
+msgstr "ID de l'application Facebook"
 
 #: sfc-base.php:80
 msgid "Facebook Fan Page"
-msgstr ""
+msgstr "Page de fans Facebook"
 
 #: sfc-base.php:86
 #: views/options_page.php:2
 msgid "Simple Facebook Connect"
-msgstr ""
+msgstr "Simple Facebook Connect"
 
 #: sfc-base.php:121
 msgid "Facebook doesn't like your settings, it says"
-msgstr ""
+msgstr "Facebook n'aime pas votre configuration, il dit"
 
 #: sfc-base.php:136
 msgid "Your Facebook Application's \"Connect URL\" is configured incorrectly. It is currently set to"
@@ -180,7 +182,7 @@ msgstr ""
 #: sfc-base.php:167
 #: sfc-base.php:172
 msgid "required"
-msgstr ""
+msgstr "recquis"
 
 #: sfc-base.php:174
 #, php-format
@@ -209,7 +211,7 @@ msgstr ""
 
 #: views/options_page.php:10
 msgid "About the Author"
-msgstr ""
+msgstr "A propos de l'auteur"
 
 #: views/options_page.php:11
 #, php-format
@@ -222,7 +224,7 @@ msgstr ""
 
 #: views/options_page.php:18
 msgid "Facebook Platform Status"
-msgstr ""
+msgstr "Statut de la plateforme Facebook"
 
 #: views/section_text.php:1
 msgid ""
@@ -232,7 +234,7 @@ msgstr ""
 
 #: views/section_text.php:3
 msgid "Can't find your key?"
-msgstr ""
+msgstr "Vous ne trouvez pasvotre clef?"
 
 #: views/section_text.php:5
 msgid "Get a list of your applications from here: <a target=\"_blank\" href=\"http://www.facebook.com/developers/apps.php\">Facebook Application List</a>"
@@ -245,15 +247,15 @@ msgstr ""
 
 #: views/section_text.php:9
 msgid "Haven't created an application yet?</strong> Don't worry, it's easy"
-msgstr ""
+msgstr "Vous n'avez pas encore créé d'application?</strong> Ne vous inquiétez pas, c'est facile"
 
 #: views/section_text.php:11
 msgid "Go to this link to create your application: <a target=\"_blank\" href=\"http://developers.facebook.com/setup.php\">Facebook Connect Setup</a>"
-msgstr ""
+msgstr "Suivez ce lien pour créer une application: <a target=\"_blank\" href=\"http://developers.facebook.com/setup.php\">Facebook Connect Setup</a>"
 
 #: views/section_text.php:12
 msgid "When it tells you to \"Upload a file\" on step 2, just hit the \"Upload Later\" button. This plugin takes care of that part for you!"
-msgstr ""
+msgstr "Quand il est dit, à l'étape 2, d' \"Envoyer un fichier\", cliquez sur le bouton \"Envoyer plus tard\". Ce plugin s'occupe de cette étape pour vous!"
 
 #: views/section_text.php:13
 msgid "On the final screen, there will be an API Key field, in the yellow box. Copy and paste that information into here."
