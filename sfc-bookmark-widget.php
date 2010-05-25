@@ -4,7 +4,7 @@ Plugin Name: SFC - Bookmark Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Shows a "Add Bookmark" button in the sidebar which allows users to add the site to their bookmark bar in Facebook.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -34,7 +34,7 @@ function sfc_bookmark_widget_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_bookmark_widget_activation_check');
 
@@ -53,8 +53,8 @@ add_shortcode('fb-bookmark', 'sfc_bookmark_shortcode');
 
 class SFC_Bookmark_Widget extends WP_Widget {
 	function SFC_Bookmark_Widget() {
-		$widget_ops = array('classname' => 'widget_sfc-bookmark', 'description' => 'Facebook Bookmark');
-		$this->WP_Widget('sfc-bookmark', 'Facebook Bookmark (SFC)', $widget_ops);
+		$widget_ops = array('classname' => 'widget_sfc-bookmark', 'description' => __('Facebook Bookmark', 'sfc'));
+		$this->WP_Widget('sfc-bookmark', __('Facebook Bookmark (SFC)', 'sfc'), $widget_ops);
 	}
 
 	function widget($args, $instance) {

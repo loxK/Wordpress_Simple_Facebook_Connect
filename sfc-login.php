@@ -4,7 +4,7 @@ Plugin Name: SFC - Login
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Integrates Facebook Login and Authentication to WordPress. Log into your WordPress account with your Facebook credentials.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -38,7 +38,7 @@ function sfc_login_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_login_activation_check');
 
@@ -50,21 +50,21 @@ function sfc_login_profile_page($profile) {
 ?>
 	<table class="form-table">
 		<tr>
-			<th><label>Facebook Connect</label></th>
+			<th><label><?php _e('Facebook Connect', 'sfc'); ?></label></th>
 <?php
 	$fbuid = get_usermeta($profile->ID, 'fbuid');	
 	if (empty($fbuid)) { 
 		?>
-			<td><p><fb:login-button perms="email" v="2" size="large" onlogin="sfc_login_update_fbuid(0);"><fb:intl>Connect this WordPress account to Facebook</fb:intl></fb:login-button></p></td>
+			<td><p><fb:login-button perms="email" v="2" size="large" onlogin="sfc_login_update_fbuid(0);"><fb:intl><?php _e('Connect this WordPress account to Facebook', 'sfc'); ?></fb:intl></fb:login-button></p></td>
 		</tr>
 	</table>
 	<?php	
 	} else { ?>
-		<td><p>Connected as
+		<td><p><?php _e('Connected as', 'sfc'); ?>
 		<fb:profile-pic size="square" width="32" height="32" uid="<?php echo $fbuid; ?>" linked="true"></fb:profile-pic>
 		<fb:name useyou="false" uid="<?php echo $fbuid; ?>"></fb:name>.
 <?php if (SFC_ALLOW_DISCONNECT) { ?>
-		<input type="button" class="button-primary" value="Disconnect this account from WordPress" onclick="sfc_login_update_fbuid(1); return false;" />
+		<input type="button" class="button-primary" value="<?php _e('Disconnect this account from WordPress', 'sfc'); ?>" onclick="sfc_login_update_fbuid(1); return false;" />
 <?php } ?>
 		</p></td>
 	<?php } ?>
@@ -126,7 +126,7 @@ function sfc_login_ajax_update_fbuid() {
 		$ret = $fb->api_client->connect_registerUsers(json_encode($aa));
 		if (empty($ret)) { 
 			// return value is empty, not good
-			echo 'Facebook did not know your email address.';
+			_e('Facebook did not know your email address.', 'sfc');
 			exit();
 		} else {
 			// now we check to see if that user gives the email_hash back to us
@@ -141,7 +141,7 @@ function sfc_login_ajax_update_fbuid() {
 			
 				if (!$valid) {
 					// no good
-					echo 'Facebook could not confirm your email address.';
+					_e('Facebook could not confirm your email address.', 'sfc');
 					exit();
 				}
 			}
@@ -191,7 +191,7 @@ function sfc_login_add_login_button() {
 	}
 	</script>
 	<?php
-	if ($action == 'login') echo '<p><fb:login-button v="2" perms="email" onlogin="sfc_login_check();"><fb:intl>Connect with Facebook</fb:intl></fb:login-button></p><br />';
+	if ($action == 'login') echo '<p><fb:login-button v="2" perms="email" onlogin="sfc_login_check();"><fb:intl><?php _e('Connect with Facebook', 'sfc'); ?></fb:intl></fb:login-button></p><br />';
 }
 
 add_filter('authenticate','sfc_login_check',90);
@@ -218,7 +218,7 @@ function sfc_login_check($user) {
 				} else {
 					do_action('sfc_login_new_fb_user',$fb); // hook for creating new users if desired
 					global $error;
-					$error = '<strong>ERROR</strong>: Facebook user not recognized.';
+					$error = '<strong>'.__('ERROR', 'sfc').'</strong>: '.__('Facebook user not recognized.', 'sfc');
 				}
 			}
 

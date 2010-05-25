@@ -4,7 +4,7 @@ Plugin Name: SFC - Register
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Allows new users to register using Facebook credentials.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -39,7 +39,7 @@ if (!defined('SFC_REGISTER_TRANSPARENT'))
 function sfc_register_activation_check(){
 	if (!function_exists('sfc_login_activation_check')) {
 		deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-		wp_die("The SFC-Register plugin requires that the SFC-Login plugin be activated first.");
+		wp_die(__('The SFC-Register plugin requires that the SFC-Login plugin be activated first.', 'sfc'));
 	}
 	
 	if (function_exists('sfc_version')) {
@@ -48,7 +48,7 @@ function sfc_register_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_register_activation_check');
 
@@ -137,9 +137,9 @@ FB.ensureInit ( function () {
 
 FB.ensureInit(function(){
 	FB.Connect.ifUserConnected( function() {
-		jQuery('#sfc-fb-button').html('<input class="button-primary" type="button" onclick="FB.Connect.logoutAndRedirect(\'wp-login.php\');" value="Logout of Facebook" />');
+		jQuery('#sfc-fb-button').html('<input class="button-primary" type="button" onclick="FB.Connect.logoutAndRedirect(\'wp-login.php\');" value="<?php echo addslashes(__('Logout of Facebook', 'sfc')); ?>" />');
 	}, function() {
-		jQuery('#sfc-fb-button').html('<fb:login-button v="2" perms="email" onlogin="location.reload(true);"><fb:intl>Connect with Facebook</fb:intl></fb:login-button>');
+		jQuery('#sfc-fb-button').html('<fb:login-button v="2" perms="email" onlogin="location.reload(true);"><fb:intl><?php echo addslashes(__('Connect with Facebook', 'sfc')); ?></fb:intl></fb:login-button>');
 		FB.XFBML.Host.parseDomTree();
 	});
 });

@@ -231,6 +231,10 @@ Email me if you have problems... But only if you're also willing to help solve t
 
 == Changelog ==
 
+= 0.22 =
+* i18n thanks to Burak Tuyan.
+* New filter: sfc_img_exclude will let other plugin authors add their own image classes to exclude from the automatic image finder for share and publish and such.
+
 = 0.21 =
 * The main SFC base plugin now has a proper and working check for PHP 5 only systems. I think. I hope. I'm sick of people talking about "error on line 210" or what have you. Read the requirements, folks!
 * The base plugin now has ways to pre-define the main four settings (api-key, app-secret, app-id, and fanpage-id). You can add defines for each of them into your wp-config with these names: SFC_API_KEY, SFC_APP_SECRET, SFC_APP_ID, and SFC_FANPAGE. All of them are optional, and when defined they will no longer show up on the settings page. This may be useful for people using the multi-site capabilities of WP 3.0 and wanting to use a single application across domains. You can also define SFC_IGNORE_ERRORS to "true" to force the settings page to not display the "Incorrect URL" error. This is necessary for multi-user systems using a base domain application across multiple subdomains, as the error checker cannot account for that.

@@ -4,7 +4,7 @@ Plugin Name: SFC - Share Button
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Simple share button for use with SFC. Adds shortcodes and function calls.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -56,7 +56,7 @@ function sfc_share_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_share_activation_check');
 
@@ -137,23 +137,23 @@ add_filter('the_content', 'sfc_share_button_automatic', 30);
 // add the admin sections to the sfc page
 add_action('admin_init', 'sfc_share_admin_init');
 function sfc_share_admin_init() {
-	add_settings_section('sfc_share', 'Share Button Settings', 'sfc_share_section_callback', 'sfc');
-	add_settings_field('sfc_share_position', 'Share Button Position', 'sfc_share_position', 'sfc', 'sfc_share');
-	add_settings_field('sfc_share_type', 'Share Button Type', 'sfc_share_type', 'sfc', 'sfc_share');
+	add_settings_section('sfc_share', __('Share Button Settings', 'sfc'), 'sfc_share_section_callback', 'sfc');
+	add_settings_field('sfc_share_position', __('Share Button Position', 'sfc'), 'sfc_share_position', 'sfc', 'sfc_share');
+	add_settings_field('sfc_share_type', __('Share Button Type', 'sfc'), 'sfc_share_type', 'sfc', 'sfc_share');
 }
 
 function sfc_share_section_callback() {
-	echo '<p>Choose where you want the share button to add the button in your content.</p>';
+	echo '<p>'.__('Choose where you want the share button to add the button in your content.', 'sfc').'</p>';
 }
 
 function sfc_share_position() {
 	$options = get_option('sfc_options');
 	if (!$options['share_position']) $options['share_position'] = 'manual';
 	?>
-	<p><label><input type="radio" name="sfc_options[share_position]" value="before" <?php checked('before', $options['share_position']); ?> /> Before the content of your post</label></p>
-	<p><label><input type="radio" name="sfc_options[share_position]" value="after" <?php checked('after', $options['share_position']); ?> /> After the content of your post</label></p>
-	<p><label><input type="radio" name="sfc_options[share_position]" value="both" <?php checked('both', $options['share_position']); ?> /> Before AND After the content of your post </label></p>
-	<p><label><input type="radio" name="sfc_options[share_position]" value="manual" <?php checked('manual', $options['share_position']); ?> /> Manually add the button to your theme or posts (use the sfc_share_button function in your theme, or the [fb-share] shortcode in your posts)</label></p>
+	<p><label><input type="radio" name="sfc_options[share_position]" value="before" <?php checked('before', $options['share_position']); ?> /> <?php _e('Before the content of your post', 'sfc'); ?></label></p>
+	<p><label><input type="radio" name="sfc_options[share_position]" value="after" <?php checked('after', $options['share_position']); ?> /> <?php _e('After the content of your post', 'sfc'); ?></label></p>
+	<p><label><input type="radio" name="sfc_options[share_position]" value="both" <?php checked('both', $options['share_position']); ?> /> <?php _e('Before AND After the content of your post', 'sfc'); ?></label></p>
+	<p><label><input type="radio" name="sfc_options[share_position]" value="manual" <?php checked('manual', $options['share_position']); ?> /> <?php _e('Manually add the button to your theme or posts (use the sfc_share_button function in your theme, or the [fb-share] shortcode in your posts)', 'sfc'); ?></label></p>
 <?php 
 }
 
@@ -164,18 +164,18 @@ function sfc_share_type() {
 	<table><tr><td style="width:140px;">
 	<div class="sfc_share_type_selector">
 	<select name="sfc_options[share_type]" id="sfc_select_share_type">
-	<option value="icon" <?php selected('icon', $options['share_type']); ?>>Icon</option>
-	<option value="icon_link" <?php selected('icon_link', $options['share_type']); ?>>Icon and Link</option>
-	<option value="button" <?php selected('button', $options['share_type']); ?>>Button</option>
-	<option value="button_count" <?php selected('button_count', $options['share_type']); ?>>Button Count</option>
-	<option value="box_count" <?php selected('box_count', $options['share_type']); ?>>Box Count</option>
+	<option value="icon" <?php selected('icon', $options['share_type']); ?>><?php _e('Icon', 'sfc'); ?></option>
+	<option value="icon_link" <?php selected('icon_link', $options['share_type']); ?>><?php _e('Icon and Link', 'sfc'); ?></option>
+	<option value="button" <?php selected('button', $options['share_type']); ?>><?php _e('Button', 'sfc'); ?></option>
+	<option value="button_count" <?php selected('button_count', $options['share_type']); ?>><?php _e('Button Count', 'sfc'); ?></option>
+	<option value="box_count" <?php selected('box_count', $options['share_type']); ?>><?php _e('Box Count', 'sfc'); ?></option>
 	</select>
 	</td><td>
-	<div id="sfc_share_type_preview" style="float:right;">Preview:
+	<div id="sfc_share_type_preview" style="float:right;"><?php _e('Preview:', 'sfc'); ?>
 	<img id="sfc_share_type_preview_image" src="<?php echo plugins_url('/images/'.$options['share_type'].'.png', __FILE__); ?>" />
 	</div>
 	</td></tr>
-	<tr><td colspan="2"><p>Note: Counts will not show up until they reach at least three. This is a Facebook limitation on the Share button.</p></td></tr></table>
+	<tr><td colspan="2"><p><?php _e('Note: Counts will not show up until they reach at least three. This is a Facebook limitation on the Share button.', 'sfc'); ?></p></td></tr></table>
 	</div>
 	<script type="text/javascript">
 	jQuery(document).ready(function() {
@@ -228,7 +228,7 @@ function sfc_share_meta() {
 				$img[$attr['name']] = $attr['value'];
 			if ( isset($img['src']) ) {
 				if (!isset($img['class']) || 
-					(isset($img['class']) && false === strpos($img['class'], 'wp-smiley'))
+					(isset($img['class']) && false === straipos($img['class'], apply_filters('sfc_img_exclude',array('wp-smiley'))))
 					) { // ignore smilies
 ?><link rel="image_src" href="<?php echo $img['src'] ?>" />
 <?php
@@ -259,3 +259,22 @@ function sfc_share_meta() {
 		}
 	}
 }
+
+// finds a item from an array in a string
+if (!function_exists('straipos')) :
+function straipos($haystack,$array,$offset=0)
+{
+   $occ = array();
+   for ($i = 0;$i<sizeof($array);$i++)
+   {
+       $pos = strpos($haystack,$array[$i],$offset);
+       if (is_bool($pos)) continue;
+       $occ[$pos] = $i;
+   }
+   if (sizeof($occ)<1) return false;
+   ksort($occ);
+   reset($occ);
+   list($key,$value) = each($occ);
+   return array($key,$value);
+}
+endif;

@@ -4,7 +4,7 @@ Plugin Name: SFC - Fan Box Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Create a Fan Box for your sites sidebar.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -42,7 +42,7 @@ function sfc_fan_box_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_fan_box_activation_check');
 
@@ -90,8 +90,8 @@ add_shortcode('fb-fanbox', 'sfc_fanbox_shortcode');
 
 class SFC_Fan_Box_Widget extends WP_Widget {
 	function SFC_Fan_Box_Widget() {
-		$widget_ops = array('classname' => 'widget_sfc-fanbox', 'description' => 'Facebook Fan Box');
-		$this->WP_Widget('sfc-fanbox', 'Facebook Fan Box (SFC)', $widget_ops);
+		$widget_ops = array('classname' => 'widget_sfc-fanbox', 'description' => __('Facebook Fan Box', 'sfc'));
+		$this->WP_Widget('sfc-fanbox', __('Facebook Fan Box (SFC)', 'sfc'), $widget_ops);
 	}
 
 	function widget($args, $instance) {
@@ -134,19 +134,19 @@ class SFC_Fan_Box_Widget extends WP_Widget {
 <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> 
 <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
 </label></p>
-<p><label for="<?php echo $this->get_field_id('logobar'); ?>">Show Facebook Logo Bar? 
+<p><label for="<?php echo $this->get_field_id('logobar'); ?>"><?php _e('Show Facebook Logo Bar?', 'sfc'); ?> 
 <input class="checkbox" id="<?php echo $this->get_field_id('logobar'); ?>" name="<?php echo $this->get_field_name('logobar'); ?>" type="checkbox" <?php checked($logobar, true); ?> />
 </label></p>
-<p><label for="<?php echo $this->get_field_id('stream'); ?>">Show Stream Stories? 
+<p><label for="<?php echo $this->get_field_id('stream'); ?>"><?php _e('Show Stream Stories? ', 'sfc'); ?>
 <input class="checkbox" id="<?php echo $this->get_field_id('stream'); ?>" name="<?php echo $this->get_field_name('stream'); ?>" type="checkbox" <?php checked($stream, true); ?> />
 </label></p>
-<p><label for="<?php echo $this->get_field_id('connections'); ?>">Number of Fans to Show:
+<p><label for="<?php echo $this->get_field_id('connections'); ?>"><?php _e('Number of Fans to Show:', 'sfc'); ?>
 <input class="widefat" id="<?php echo $this->get_field_id('connections'); ?>" name="<?php echo $this->get_field_name('connections'); ?>" type="text" value="<?php echo $connections; ?>" />
 </label></p>
-<p><label for="<?php echo $this->get_field_id('width'); ?>">Width of the widget in pixels:
+<p><label for="<?php echo $this->get_field_id('width'); ?>"><?php _e('Width of the widget in pixels:', 'sfc'); ?>
 <input class="widefat" id="<?php echo $this->get_field_id('width'); ?>" name="<?php echo $this->get_field_name('width'); ?>" type="text" value="<?php echo $width; ?>" />
 </label></p>
-<p><label for="<?php echo $this->get_field_id('height'); ?>">Height of the widget in pixels (0 for automatic):
+<p><label for="<?php echo $this->get_field_id('height'); ?>"><?php _e('Height of the widget in pixels (0 for automatic):', 'sfc'); ?>
 <input class="widefat" id="<?php echo $this->get_field_id('height'); ?>" name="<?php echo $this->get_field_name('height'); ?>" type="text" value="<?php echo $height; ?>" />
 </label></p>
 		<?php
@@ -157,12 +157,12 @@ add_action('widgets_init', create_function('', 'return register_widget("SFC_Fan_
 // add the admin sections to the sfc page
 add_action('admin_init', 'sfc_fanbox_admin_init');
 function sfc_fanbox_admin_init() {
-	add_settings_section('sfc_fanbox', 'Fan Box Settings', 'sfc_fanbox_section_callback', 'sfc');
-	add_settings_field('sfc_fanbox_css', 'Fanbox Custom CSS', 'sfc_fanbox_css_callback', 'sfc', 'sfc_fanbox');
+	add_settings_section('sfc_fanbox', __('Fan Box Settings', 'sfc'), 'sfc_fanbox_section_callback', 'sfc');
+	add_settings_field('sfc_fanbox_css', __('Fanbox Custom CSS', 'sfc'), 'sfc_fanbox_css_callback', 'sfc', 'sfc_fanbox');
 }
 
 function sfc_fanbox_section_callback() {
-	echo '<p>Use this area to add any custom CSS you like to the Facebook Fan Box display.</p>';
+	echo '<p>'.__('Use this area to add any custom CSS you like to the Facebook Fan Box display.', 'sfc').'</p>';
 }
 
 function sfc_fanbox_css_callback() {

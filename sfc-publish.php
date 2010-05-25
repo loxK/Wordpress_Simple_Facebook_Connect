@@ -4,7 +4,7 @@ Plugin Name: SFC - Publish
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Allows you to share your posts to your Facebook Application page. Activate this plugin, then look on the Edit Post pages for Facebook publishing buttons.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -34,7 +34,7 @@ function sfc_publish_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_publish_activation_check');
 
@@ -60,15 +60,16 @@ function sfc_publish_section_callback() {
 
 function sfc_publish_auto_callback() {
 	$options = get_option('sfc_options');
-	if (!isset($options['autopublish_app']) || !$options['autopublish_app']) $options['autopublish_app'] = false;
-	if (!isset($options['autopublish_profile']) || !$options['autopublish_profile']) $options['autopublish_profile'] = false;
+	if (!$options['autopublish_app']) $options['autopublish_app'] = false;
+	if (!$options['autopublish_profile']) $options['autopublish_profile'] = false;
 	?>
-	<p><label><?php 
-	echo sprintf( __('Automatically Publish to Facebook %s', 'sfc'), ($options['fanpage'] ? __('Fan Page', 'sfc') : __('Application', 'sfc')) );
+	<p><label>Automatically Publish to Facebook <?php
+	if ($options['fanpage']) echo 'Fan Page';
+	else echo 'Application'; 
 	?>: <input type="checkbox" name="sfc_options[autopublish_app]" value="1" <?php checked('1', $options['autopublish_app']); ?> /></label> 
-	<?php if (!$options['fanpage']) _e( '(Note: This does not work due to a <a href="http://bugs.developers.facebook.com/show_bug.cgi?id=8184">Facebook bug</a>.)', 'sfc'); ?>
+	<?php if (!$options['fanpage']) _e('(Note: This does not work due to a <a href="http://bugs.developers.facebook.com/show_bug.cgi?id=8184">Facebook bug</a>.)', 'sfc'); ?>
 	</p>
-	<p><label><?php _e('Automatically Publish to Facebook Profile','sfc'); ?>: <input type="checkbox" name="sfc_options[autopublish_profile]" value="1" <?php checked('1', $options['autopublish_profile']); ?> /></label></p>
+	<p><label><?php _e('Automatically Publish to Facebook Profile:', 'sfc'); ?> <input type="checkbox" name="sfc_options[autopublish_profile]" value="1" <?php checked('1', $options['autopublish_profile']); ?> /></label></p>
 <?php 
 }
 
@@ -80,26 +81,24 @@ function sfc_publish_extended_callback() {
 	include_once 'facebook-platform/facebook.php';
 	$fb=new Facebook($options['api_key'], $options['app_secret']);
 
-_e('<p>In order for the SFC-Publish plugin to be able to publish your posts automatically, you must grant some "Extended Permissions"
-to the plugin.</p>
+?><p><?php _e('In order for the SFC-Publish plugin to be able to publish your posts automatically, you must grant some "Extended Permissions"
+to the plugin.', 'sfc'); ?></p>
 <ul>
-<li>Offline Permission is needed to access your Page as if you were publishing manually.<br /><span id="sfc-offline-perm-check"></span></li>
-<li>Publish Permission is needed to publish stories to the stream automatically.<br /><span id="sfc-publish-perm-check"></span></li>');
-
-if ($options['fanpage']) { 
-    _e('<li>Fan Page Publish Permission is needed to publish stories to the Fan Page automatically.<br /><span id="sfc-fanpage-perm-check"></span></li>', 'sfc');
- } ?>
+<li><?php _e('Offline Permission is needed to access your Page as if you were publishing manually.', 'sfc'); ?><br /><span id="sfc-offline-perm-check"></span></li>
+<li><?php _e('Publish Permission is needed to publish stories to the stream automatically.', 'sfc'); ?><br /><span id="sfc-publish-perm-check"></span></li>
+<?php if ($options['fanpage']) { ?>
+<li><?php _e('Fan Page Publish Permission is needed to publish stories to the Fan Page automatically.', 'sfc'); ?><br /><span id="sfc-fanpage-perm-check"></span></li>
+<?php } ?>
 </ul>
-<?php if (isset($options['user']) && $options['user'] && $options['session_key']) {
-	?><p><?php _e('User ID and Session Key found! Automatic publishing is ready to go!', 'sfc') ?></p><?php
+<?php if ($options['user'] && $options['session_key']) {
+	?><p><?php _e('User ID and Session Key found! Automatic publishing is ready to go!', 'sfc'); ?></p><?php
 } else { 
-	?><p><?php _e('Be sure to click the "Save Settings" button on this page after granting these permissions! This will allow SFC to save your user id and session key, for usage by the plugin when publishing posts to your profile and/or page.', 'sfc') ?></p><?php 
+	?><p><?php _e('Be sure to click the "Save Settings" button on this page after granting these permissions! This will allow SFC to save your user id and session key, for usage by the plugin when publishing posts to your profile and/or page.', 'sfc'); ?></p><?php 
 } ?>
 <script type="text/javascript">
 FB.ensureInit(function () {
 <?php 
 	if ($options['fanpage']) {
-		$add_auths = false;
 		try {
 			$result = $fb->api_client->users_hasAppPermission('publish_stream', $options['fanpage']);
 			if (!$result) $add_auths=true;
@@ -108,26 +107,26 @@ FB.ensureInit(function () {
 		}
 		if ($add_auths) { 
 		?>
-		jQuery('#sfc-fanpage-perm-check').html('<input type="button" class="button-primary" onclick="sfc_publish_get_perm(\'publish_stream\',\'#sfc-fanpage-perm-check\', <?php echo $options['fanpage']; ?>);" value="Grant Publish Permission" />');
+		jQuery('#sfc-fanpage-perm-check').html('<input type="button" class="button-primary" onclick="sfc_publish_get_perm(\'publish_stream\',\'#sfc-fanpage-perm-check\', <?php echo $options['fanpage']; ?>);" value="<?php echo addslashes(__('Grant Publish Permission', 'sfc')); ?>" />');
 		<?php } else { ?>
-		jQuery('#sfc-fanpage-perm-check').html('<input type="button" class="button-primary" disabled="disabled" value="Fan Page Publish Permission Granted" />');
+		jQuery('#sfc-fanpage-perm-check').html('<input type="button" class="button-primary" disabled="disabled" value="<?php echo addslashes(__('Fan Page Publish Permission Granted', 'sfc')); ?>" />');
 		<?php }
 	}
 	?>
 	
 	FB.Facebook.apiClient.users_hasAppPermission('offline_access', function(res,ex) {
 		if (res == 0) {
-			jQuery('#sfc-offline-perm-check').html('<input type="button" class="button-primary" onclick="sfc_publish_get_perm(\'offline_access\',\'#sfc-offline-perm-check\');" value="Grant Offline Permission" />');
+			jQuery('#sfc-offline-perm-check').html('<input type="button" class="button-primary" onclick="sfc_publish_get_perm(\'offline_access\',\'#sfc-offline-perm-check\');" value="<?php echo addslashes(__('Grant Offline Permission', 'sfc')); ?>" />');
 		} else {
-			jQuery('#sfc-offline-perm-check').html('<input type="button" class="button-primary" disabled="disabled" value="Offline Permission Granted" />');
+			jQuery('#sfc-offline-perm-check').html('<input type="button" class="button-primary" disabled="disabled" value="<?php echo addslashes(__('Offline Permission Granted', 'sfc')); ?>" />');
 		}
 	});
 	
 	FB.Facebook.apiClient.users_hasAppPermission('publish_stream', function(res,ex) {
 		if (res == 0) {
-			jQuery('#sfc-publish-perm-check').html('<input type="button" class="button-primary" onclick="sfc_publish_get_perm(\'publish_stream\',\'#sfc-publish-perm-check\');" value="Grant Publish Permission" />');
+			jQuery('#sfc-publish-perm-check').html('<input type="button" class="button-primary" onclick="sfc_publish_get_perm(\'publish_stream\',\'#sfc-publish-perm-check\');" value="<?php echo addslashes(__('Grant Publish Permission', 'sfc')); ?>" />');
 		} else {
-			jQuery('#sfc-publish-perm-check').html('<input type="button" class="button-primary" disabled="disabled" value="Publish Permission Granted" />');
+			jQuery('#sfc-publish-perm-check').html('<input type="button" class="button-primary" disabled="disabled" value="<?php echo addslashes(__('Publish Permission Granted', 'sfc')); ?>" />');
 		}
 	});
 });
@@ -137,13 +136,13 @@ function sfc_publish_get_perm($perm, $id, $page) {
 	if ($page) {
 		FB.Connect.showPermissionDialog($perm, function(res,ex) {
 			if (res.match($perm)) {
-				jQuery($id).html('<input type="button" class="button-primary" disabled="disabled" value="Permission Granted" />');
+				jQuery($id).html('<input type="button" class="button-primary" disabled="disabled" value="<?php echo addslashes(__('Permission Granted', 'sfc')); ?>" />');
 			}
 		}, true, $page);
 	} else {
 		FB.Connect.showPermissionDialog($perm, function(res,ex) {
 			if (res.match($perm)) {
-				jQuery($id).html('<input type="button" class="button-primary" disabled="disabled" value="Permission Granted" />');
+				jQuery($id).html('<input type="button" class="button-primary" disabled="disabled" value="<?php echo addslashes(__('Permission Granted', 'sfc')); ?>" />');
 			}
 		});
 	}	
@@ -170,7 +169,6 @@ function sfc_publish_make_excerpt($text) {
 		$text = implode(' ', $words);
 	}
 	$text = html_entity_decode($text); // added to try to fix annoying &entity; stuff
-	$text = '<fb:intl>'.$text.'</fb:intl>'; // added to allow for translations
 	return $text;
 }
 
@@ -178,12 +176,12 @@ function sfc_publish_meta_box( $post ) {
 	$options = get_option('sfc_options');
 	
 	if ($post->post_status == 'private') {
-		echo '<p>' . __('Why would you put private posts on Facebook, for all to see?','sfc') .'</p>';
+		echo '<p>'.__('Why would you put private posts on Facebook, for all to see?', 'sfc').'</p>';
 		return;
 	}
 	
 	if ($post->post_status !== 'publish') {
-		echo '<p>' . __('After publishing the post, you can send it to Facebook from here.','sfc') .'</p>';
+		echo '<p>'.__('After publishing the post, you can send it to Facebook from here.', 'sfc').'</p>';
 		return;
 	}
 	
@@ -209,7 +207,7 @@ function sfc_publish_meta_box( $post ) {
 				$img[$attr['name']] = $attr['value'];
 			if ( isset($img['src']) ) {
 				if (!isset($img['class']) || 
-					(isset($img['class']) && false === strpos($img['class'], 'wp-smiley'))
+					(isset($img['class']) && false === straipos($img['class'], apply_filters('sfc_img_exclude',array('wp-smiley'))))
 					) { // ignore smilies
 					$images[] = $img['src'];
 				}
@@ -219,7 +217,7 @@ function sfc_publish_meta_box( $post ) {
 	
 	// build the attachment
 	$permalink = apply_filters('sfc_publish_permalink',get_permalink($post->ID),$post->ID);
-	$attachment['name'] = '<fb:intl>'.$post->post_title.'</fb:intl>';
+	$attachment['name'] = $post->post_title;
 	$attachment['href'] = $permalink;
 	$attachment['description'] = sfc_publish_make_excerpt($post->post_content);
 	$attachment['comments_xid'] = urlencode($permalink);
@@ -262,18 +260,18 @@ function sfc_publish_meta_box( $post ) {
 	}
 
 	function sfcShowPubButtons() {
-		jQuery('#sfc-publish-buttons').html('<input type="button" class="button-primary" onclick="sfcPublish(); return false;" value="<?php echo addslashes(sprintf(__('Publish to Facebook %s', 'sfc'),($options["fanpage"] ? __("Fan Page", 'sfc'): __("Application", 'sfc')))); ?>" /><input type="button" class="button-primary" onclick="sfcPersonalPublish(); return false;" value="<?php _e('Publish to your Facebook Profile', 'sfc') ?>" />');
+		jQuery('#sfc-publish-buttons').html('<input type="button" class="button-primary" onclick="sfcPublish(); return false;" value="<?php echo addslashes(__('Publish to Facebook', 'sfc')); ?> <?php if ($options["fanpage"]) echo addslashes (__('Fan Page', 'sfc')); else echo addslashes(__('Application', 'sfc')); ?>" /><input type="button" class="button-primary" onclick="sfcPersonalPublish(); return false;" value="<?php echo addslashes(__('Publish to your Facebook Profile', 'sfc')); ?>" />');
 	}
 	
 	FB.ensureInit(function(){
 		FB.Connect.ifUserConnected(sfcShowPubButtons, function() {
-			jQuery('#sfc-publish-buttons').html('<fb:login-button v="2" perms="email" onlogin="sfcShowPubButtons();"><fb:intl><?php _e('Connect with Facebook', 'sfc') ?></fb:intl></fb:login-button>');
+			jQuery('#sfc-publish-buttons').html('<fb:login-button v="2" perms="email" onlogin="sfcShowPubButtons();"><fb:intl><?php echo addslashes(__('Connect with Facebook', 'sfc')); ?></fb:intl></fb:login-button>');
 			FB.XFBML.Host.parseDomTree();
 		});
 	});
 	
 	</script>
-	<div id="sfc-publish-buttons"><p><?php _e('If you can see this, then there is some form of problem showing you the Facebook publishing buttons. This may be caused by a plugin conflict or some form of bad javascript on this page. Try reloading or disabling other plugins to find the source of the problem.', 'sfc') ?></p></div>
+	<div id="sfc-publish-buttons"><p><?php _e('If you can see this, then there is some form of problem showing you the Facebook publishing buttons. This may be caused by a plugin conflict or some form of bad javascript on this page. Try reloading or disabling other plugins to find the source of the problem.', 'sfc'); ?></p></div>
 	<?php
 }
 
@@ -334,7 +332,7 @@ function sfc_publish_automatic($id, $post) {
 			foreach ( wp_kses_hair($match, array('http')) as $attr) 
 				$img[$attr['name']] = $attr['value'];
 			if ( isset($img['src']) ) {
-				if ( isset( $img['class'] ) && false === strpos( $img['class'], 'wp-smiley' ) ) { // ignore smilies
+				if ( isset( $img['class'] ) && false === straipos( $img['class'], apply_filters('sfc_img_exclude',array('wp-smiley')) ) ) { // ignore smilies
 					$images[] = $img['src'];
 				}
 			}
@@ -358,7 +356,7 @@ function sfc_publish_automatic($id, $post) {
 	}
 
 	// Share link
-	$action_links[0]['text'] = __('Share', 'sfc');
+	$action_links[0]['text'] = 'Share';
 	$action_links[0]['href'] = 'http://www.facebook.com/share.php?u='.urlencode($permalink);
 	
 	// publish to page
@@ -368,6 +366,10 @@ function sfc_publish_automatic($id, $post) {
 		
 		if ($options['fanpage']) $who = $options['fanpage'];
 		else $who = $options['appid'];
+
+		// check to see if we can send to FB at all
+		$result = $fb->api_client->users_hasAppPermission('publish_stream', $who);
+		if (!$result) break;
 
 		$fb_post_id = $fb->api_client->stream_publish(null, json_encode($attachment), json_encode($action_links), null, $who);
 		
@@ -379,6 +381,11 @@ function sfc_publish_automatic($id, $post) {
 	
 	// publish to profile
 	if ($options['autopublish_profile'] && !get_post_meta($id,'_fb_post_id_profile',true)) {
+	
+		// check to see if we can send to FB at all
+		$result = $fb->api_client->users_hasAppPermission('publish_stream');
+		if (!$result) break; 
+
 		$fb_post_prof_id = $fb->api_client->stream_publish(null, json_encode($attachment), json_encode($action_links));
            
 		if ($fb_post_prof_id) {
@@ -410,3 +417,21 @@ function sfc_publish_validate_options($input) {
 	return $input;
 }
 
+// finds a item from an array in a string
+if (!function_exists('straipos')) :
+function straipos($haystack,$array,$offset=0)
+{
+   $occ = array();
+   for ($i = 0;$i<sizeof($array);$i++)
+   {
+       $pos = strpos($haystack,$array[$i],$offset);
+       if (is_bool($pos)) continue;
+       $occ[$pos] = $i;
+   }
+   if (sizeof($occ)<1) return false;
+   ksort($occ);
+   reset($occ);
+   list($key,$value) = each($occ);
+   return array($key,$value);
+}
+endif;

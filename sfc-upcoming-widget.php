@@ -4,7 +4,7 @@ Plugin Name: SFC - Upcoming Events Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-upcoming/
 Description: Shows a list of upcoming events (for a user, group, fan page, or application) in the sidebar.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -34,7 +34,7 @@ function sfc_upcoming_widget_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_upcoming_widget_activation_check');
 
@@ -79,8 +79,8 @@ function sfc_upcoming_sort($array, $column) {
 
 class SFC_Upcoming_Widget extends WP_Widget {
 	function SFC_Upcoming_Widget() {
-		$widget_ops = array('classname' => 'widget_sfc-upcoming', 'description' => 'Facebook Upcoming Events');
-		$this->WP_Widget('sfc-upcoming', 'Facebook Upcoming Events (SFC)', $widget_ops);
+		$widget_ops = array('classname' => 'widget_sfc-upcoming', 'description' => __('Facebook Upcoming Events', 'sfc'));
+		$this->WP_Widget('sfc-upcoming', __('Facebook Upcoming Events (SFC)', 'sfc'), $widget_ops);
 	}
 
 	function widget($args, $instance) {
@@ -115,7 +115,7 @@ class SFC_Upcoming_Widget extends WP_Widget {
 <p><label for="<?php echo $this->get_field_id('ID'); ?>"><?php _e('User ID:'); ?>  
 <input class="widefat" id="<?php echo $this->get_field_id('id'); ?>" name="<?php echo $this->get_field_name('id'); ?>" type="text" value="<?php echo $id; ?>" />
 </label></p>
-<p>(The User ID can also be a Group ID, a Fan Page ID, or an Application ID.)</p>
+<p>(<?php _e('The User ID can also be a Group ID, a Fan Page ID, or an Application ID.', 'sfc'); ?>)</p>
 		<?php
 	}
 }

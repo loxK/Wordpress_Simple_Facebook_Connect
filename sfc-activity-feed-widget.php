@@ -4,7 +4,7 @@ Plugin Name: SFC - Activity Feed Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Create an Activity Feed for your sites sidebar.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -35,7 +35,7 @@ function sfc_activity_feed_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_activity_feed_activation_check');
 
@@ -75,8 +75,8 @@ add_shortcode('fb-activity', 'sfc_activity_feed_shortcode');
 
 class SFC_Activity_Feed_Widget extends WP_Widget {
 	function SFC_Activity_Feed_Widget() {
-		$widget_ops = array('classname' => 'widget_sfc-activity-feed', 'description' => 'Facebook Activity Feed');
-		$this->WP_Widget('sfc-activity', 'Facebook Activity Feed (SFC)', $widget_ops);
+		$widget_ops = array('classname' => 'widget_sfc-activity-feed', 'description' => __('Facebook Activity Feed', 'sfc'));
+		$this->WP_Widget('sfc-activity', __('Facebook Activity Feed (SFC)', 'sfc'), $widget_ops);
 	}
 
 	function widget($args, $instance) {
@@ -113,22 +113,22 @@ class SFC_Activity_Feed_Widget extends WP_Widget {
 <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> 
 <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
 </label></p>
-<p><label for="<?php echo $this->get_field_id('width'); ?>">Width of the widget in pixels:
+<p><label for="<?php echo $this->get_field_id('width'); ?>"><?php _e('Width of the widget in pixels:', 'sfc'); ?> 
 <input class="widefat" id="<?php echo $this->get_field_id('width'); ?>" name="<?php echo $this->get_field_name('width'); ?>" type="text" value="<?php echo $width; ?>" />
 </label></p>
-<p><label for="<?php echo $this->get_field_id('height'); ?>">Height of the widget in pixels:
+<p><label for="<?php echo $this->get_field_id('height'); ?>"><?php _e('Height of the widget in pixels:', 'sfc'); ?> 
 <input class="widefat" id="<?php echo $this->get_field_id('height'); ?>" name="<?php echo $this->get_field_name('height'); ?>" type="text" value="<?php echo $height; ?>" />
 </label></p>
-<p><label for="<?php echo $this->get_field_id('bordercolor'); ?>">Border color:
+<p><label for="<?php echo $this->get_field_id('bordercolor'); ?>"><?php _e('Border color:', 'sfc'); ?> 
 <input class="widefat" id="<?php echo $this->get_field_id('bordercolor'); ?>" name="<?php echo $this->get_field_name('bordercolor'); ?>" type="text" value="<?php echo $bordercolor; ?>" />
 </label></p>
-<p><label for="<?php echo $this->get_field_id('colorscheme'); ?>">Color scheme:
+<p><label for="<?php echo $this->get_field_id('colorscheme'); ?>"><?php _e('Color scheme:', 'sfc'); ?> 
 <select name="<?php echo $this->get_field_name('colorscheme'); ?>" id="<?php echo $this->get_field_id('colorscheme'); ?>">
-<option value="light" <?php selected('light', $colorscheme); ?>>light</option>
-<option value="dark" <?php selected('dark', $colorscheme); ?>>dark</option>
+<option value="light" <?php selected('light', $colorscheme); ?>><?php _e('light', 'sfc'); ?></option>
+<option value="dark" <?php selected('dark', $colorscheme); ?>><?php _e('dark', 'sfc'); ?></option>
 </select>
 </label></p>
-<p><label for="<?php echo $this->get_field_id('font'); ?>">Font:
+<p><label for="<?php echo $this->get_field_id('font'); ?>"><?php _e('Font:', 'sfc'); ?>
 <select name="<?php echo $this->get_field_name('font'); ?>" id="<?php echo $this->get_field_id('font'); ?>">
 <option value="arial" <?php selected('arial', $font); ?>>arial</option>
 <option value="lucide+grande" <?php selected('lucide+grande', $font); ?>>lucide grande</option>

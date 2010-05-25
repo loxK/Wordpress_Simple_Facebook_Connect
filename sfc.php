@@ -4,7 +4,7 @@ Plugin Name: Simple Facebook Connect - Base
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Makes it easy for your site to use Facebook Connect, in a wholly modular way.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -26,7 +26,7 @@ License: GPL2
     
 */
 function sfc_version() {
-	return '0.21';
+	return '0.22';
 }
 
 // fast check for xd_receiver request on plugin load.
@@ -51,7 +51,7 @@ exit; // stop normal WordPress execution
 function sfc_activation_check(){
 	if (version_compare(PHP_VERSION, '5', '<')) {
 		deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-		wp_die("Sorry, Simple Facebook Connect requires PHP 5 or higher. Your PHP version is ".PHP_VERSION.". Ask your web hosting service how to enable PHP 5 as the default on your servers.");
+		wp_die(printf(__('Sorry, Simple Facebook Connect requires PHP 5 or higher. Your PHP version is "%s". Ask your web hosting service how to enable PHP 5 as the default on your servers.', 'sfc'), PHP_VERSION));
 	}
 }
 register_activation_hook(__FILE__, 'sfc_activation_check');

@@ -4,7 +4,7 @@ Plugin Name: SFC - Like Button
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Simple like button for use with SFC.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -34,7 +34,7 @@ function sfc_like_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_like_activation_check');
 
@@ -105,14 +105,14 @@ add_filter('the_content', 'sfc_like_button_automatic', 30);
 // add the admin sections to the sfc page
 add_action('admin_init', 'sfc_like_admin_init');
 function sfc_like_admin_init() {
-	add_settings_section('sfc_like', 'Like Button Settings', 'sfc_like_section_callback', 'sfc');
-	add_settings_field('sfc_like_position', 'Like Button Position', 'sfc_like_position', 'sfc', 'sfc_like');
-	add_settings_field('sfc_like_layout', 'Like Button Layout', 'sfc_like_layout', 'sfc', 'sfc_like');
-	add_settings_field('sfc_like_action', 'Like Button Action', 'sfc_like_action', 'sfc', 'sfc_like');
+	add_settings_section('sfc_like', __('Like Button Settings', 'sfc'), 'sfc_like_section_callback', 'sfc');
+	add_settings_field('sfc_like_position', __('Like Button Position', 'sfc'), 'sfc_like_position', 'sfc', 'sfc_like');
+	add_settings_field('sfc_like_layout', __('Like Button Layout', 'sfc'), 'sfc_like_layout', 'sfc', 'sfc_like');
+	add_settings_field('sfc_like_action', __('Like Button Action', 'sfc'), 'sfc_like_action', 'sfc', 'sfc_like');
 }
 
 function sfc_like_section_callback() {
-	echo '<p>Choose where you want the like button added to your content.</p>';
+	echo '<p>'.__('Choose where you want the like button added to your content.', 'sfc').'</p>';
 }
 
 function sfc_like_position() {
@@ -120,10 +120,10 @@ function sfc_like_position() {
 	if (!$options['like_position']) $options['like_position'] = 'manual';
 	?>
 	<ul>
-	<li><label><input type="radio" name="sfc_options[like_position]" value="before" <?php checked('before', $options['like_position']); ?> /> Before the content of your post</label></li>
-	<li><label><input type="radio" name="sfc_options[like_position]" value="after" <?php checked('after', $options['like_position']); ?> /> After the content of your post</label></li>
-	<li><label><input type="radio" name="sfc_options[like_position]" value="both" <?php checked('both', $options['like_position']); ?> /> Before AND After the content of your post </label></li>
-	<li><label><input type="radio" name="sfc_options[like_position]" value="manual" <?php checked('manual', $options['like_position']); ?> /> Manually add the button to your theme or posts (use the sfc_like_button function in your theme)</label></li>
+	<li><label><input type="radio" name="sfc_options[like_position]" value="before" <?php checked('before', $options['like_position']); ?> /> <?php _e('Before the content of your post', 'sfc'); ?></label></li>
+	<li><label><input type="radio" name="sfc_options[like_position]" value="after" <?php checked('after', $options['like_position']); ?> /> <?php _e('After the content of your post', 'sfc'); ?></label></li>
+	<li><label><input type="radio" name="sfc_options[like_position]" value="both" <?php checked('both', $options['like_position']); ?> /> <?php _e('Before AND After the content of your post', 'sfc'); ?></label></li>
+	<li><label><input type="radio" name="sfc_options[like_position]" value="manual" <?php checked('manual', $options['like_position']); ?> /> <?php _e('Manually add the button to your theme or posts (use the sfc_like_button function in your theme)', 'sfc'); ?></label></li>
 	</ul>
 <?php 
 }
@@ -133,8 +133,8 @@ function sfc_like_layout() {
 	if (!$options['like_layout']) $options['like_layout'] = 'standard';
 	?>
 	<ul>
-	<li><label><input type="radio" name="sfc_options[like_layout]" value="standard" <?php checked('standard', $options['like_layout']); ?> /> Standard</label></li>
-	<li><label><input type="radio" name="sfc_options[like_layout]" value="button_count" <?php checked('button_count', $options['like_layout']); ?> /> Button with counter</label></li>
+	<li><label><input type="radio" name="sfc_options[like_layout]" value="standard" <?php checked('standard', $options['like_layout']); ?> /> <?php _e('Standard', 'sfc'); ?></label></li>
+	<li><label><input type="radio" name="sfc_options[like_layout]" value="button_count" <?php checked('button_count', $options['like_layout']); ?> /> <?php _e('Button with counter', 'sfc'); ?></label></li>
 	</ul>
 <?php 
 }
@@ -144,8 +144,8 @@ function sfc_like_action() {
 	if (!$options['like_action']) $options['like_action'] = 'like';
 	?>
 	<ul>
-	<li><label><input type="radio" name="sfc_options[like_action]" value="like" <?php checked('like', $options['like_action']); ?> /> Like</label></li>
-	<li><label><input type="radio" name="sfc_options[like_action]" value="recommend" <?php checked('recommend', $options['like_action']); ?> /> Recommend</label></li>
+	<li><label><input type="radio" name="sfc_options[like_action]" value="like" <?php checked('like', $options['like_action']); ?> /> <?php _e('Like', 'sfc'); ?></label></li>
+	<li><label><input type="radio" name="sfc_options[like_action]" value="recommend" <?php checked('recommend', $options['like_action']); ?> /> <?php _e('Recommend', 'sfc'); ?></label></li>
 	</ul>
 <?php 
 }
@@ -185,7 +185,7 @@ function sfc_like_meta() {
 				$img[$attr['name']] = $attr['value'];
 			if ( isset($img['src']) ) {
 				if (!isset($img['class']) || 
-					(isset($img['class']) && false === strpos($img['class'], 'wp-smiley'))
+					(isset($img['class']) && false === straipos($img['class'], apply_filters('sfc_img_exclude',array('wp-smiley'))))
 					) { // ignore smilies
 ?>
 <meta property="og:image" content="<?php echo $img['src'] ?>" />
@@ -200,3 +200,22 @@ function sfc_like_meta() {
 <?php
 	}
 }
+
+// finds a item from an array in a string
+if (!function_exists('straipos')) :
+function straipos($haystack,$array,$offset=0)
+{
+   $occ = array();
+   for ($i = 0;$i<sizeof($array);$i++)
+   {
+       $pos = strpos($haystack,$array[$i],$offset);
+       if (is_bool($pos)) continue;
+       $occ[$pos] = $i;
+   }
+   if (sizeof($occ)<1) return false;
+   ksort($occ);
+   reset($occ);
+   list($key,$value) = each($occ);
+   return array($key,$value);
+}
+endif;

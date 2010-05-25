@@ -3,13 +3,13 @@
  * This is the main code for the SFC Base system. It's included by the main "Simple Facebook Connect" plugin.
  */
 
-// load plugin locales
-load_plugin_textdomain( 'sfc', false, basename(dirname(__FILE__)) . '/languages/');
+// Load the textdomain
+load_plugin_textdomain('sfc', false, dirname(plugin_basename(__FILE__)));
 
 // load the FB script into the head 
 add_action('wp_enqueue_scripts','sfc_featureloader');
 function sfc_featureloader() {
-	if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+	if ($_SERVER['HTTPS'] == 'on')
 		wp_enqueue_script( 'fb-featureloader', 'https://ssl.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/'.get_locale(), array(), '0.4', false);
 	else
 		wp_enqueue_script( 'fb-featureloader', 'http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/'.get_locale(), array(), '0.4', false);
@@ -48,8 +48,8 @@ FB_RequireFeatures(["XFBML"], function() {
 add_filter('plugin_row_meta', 'sfc_donate_link', 10, 2);
 function sfc_donate_link($links, $file) {
 	if ($file == plugin_basename(__FILE__)) {
-		$links[] = '<a href="'.admin_url('options-general.php?page=sfc').'">' . __('Settings', 'sfc') . '</a>';
-		$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%40ottodestruct%2ecom">' . __('Donate', 'sfc') . '</a>';
+		$links[] = '<a href="'.admin_url('options-general.php?page=sfc').'">'.__('Settings', 'sfc').'</a>';
+		$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%40ottodestruct%2ecom">'.__('Donate', 'sfc').'</a>';
 	}
 	return $links;
 }
@@ -57,7 +57,7 @@ function sfc_donate_link($links, $file) {
 // action links
 add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'sfc_settings_link', 10, 1);
 function sfc_settings_link($links) {
-	$links[] = '<a href="'.admin_url('options-general.php?page=sfc').'">' . __('Settings', 'sfc') . '</a>';
+	$links[] = '<a href="'.admin_url('options-general.php?page=sfc').'">'.__('Settings', 'sfc').'</a>';
 	return $links;
 }
 
@@ -88,15 +88,59 @@ function sfc_admin_add_page() {
 
 // display the admin options page
 function sfc_options_page() {
-    include dirname(__FILE__) . '/views/options_page.php';
+?>
+	<div class="wrap">
+	<h2><?php _e('Simple Facebook Connect', 'sfc'); ?></h2>
+	<p><?php _e('Options relating to the Simple Facebook Connect plugins.', 'sfc'); ?> </p>
+	<form method="post" action="options.php">
+	<?php settings_fields('sfc_options'); ?>
+	<table><tr><td>
+	<?php do_settings_sections('sfc'); ?>
+	</td><td style='vertical-align:top;'>
+	<div style='width:20em; float:right; background: #ffc; border: 1px solid #333; margin: 2px; padding: 5px'>
+			<h3 align='center'><?php _e('About the Author', 'sfc'); ?></h3>
+		<p><a href="http://ottopress.com/blog/wordpress-plugins/simple-facebook-connect/">Simple Facebook Connect</a> is developed and maintained by <a href="http://ottodestruct.com">Otto</a>.</p>
+			<p>He blogs at <a href="http://ottodestruct.com">Nothing To See Here</a> and <a href="http://ottopress.com">Otto on WordPress</a>, posts photos on <a href="http://www.flickr.com/photos/otto42/">Flickr</a>, and chats on <a href="http://twitter.com/otto42">Twitter</a>.</p>
+			<p>You can follow his site on either <a href="http://www.facebook.com/apps/application.php?id=116002660893">Facebook</a> or <a href="http://twitter.com/ottodestruct">Twitter</a>, if you like.</p>
+			<p>If you'd like to <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%40ottodestruct%2ecom">buy him a beer</a>, then he'd be perfectly happy to drink it.</p>
+		</div>
+		
+	<div style='width:20em; float:right; background: #fff; border: 1px solid #333; margin: 2px; padding: 5px'>
+		<h3 align='center'><?php _e('Facebook Platform Status', 'sfc'); ?></h3>
+		<?php @wp_widget_rss_output('http://www.facebook.com/feeds/api_messages.php',array('show_date' => 1, 'items' => 10) ); ?>
+	</div>		
+	</td></tr></table>
+	<p class="submit">
+	<input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
+	</p>
+	</form>
+	</div>
+	
+<?php
 }
 
 function sfc_section_text() {
 	$options = get_option('sfc_options');
 	if (empty($options['api_key']) || empty($options['app_secret']) || empty($options['appid'])) {
-    
-        include dirname(__FILE__) . '/views/section_text.php';
-		
+?>
+<p><?php _e('To connect your site to Facebook, you will need a Facebook Application. 
+If you have already created one, please insert your API key, Application Secret, and Application ID below.', 'sfc'); ?></p>
+<p><strong><?php _e('Can\'t find your key?', 'sfc'); ?></strong></p>
+<ol>
+<li><?php _e('Get a list of your applications from here: <a target="_blank" href="http://www.facebook.com/developers/apps.php">Facebook Application List</a>', 'sfc'); ?></li>
+<li><?php _e('Select the application you want, then copy and paste the API key, Application Secret, and Application ID from there.', 'sfc'); ?></li>
+</ol>
+
+<p><strong><?php _e('Haven\'t created an application yet?', 'sfc'); ?></strong> <?php _e('Don\'t worry, it\'s easy!', 'sfc'); ?></p>
+<ol>
+<li><?php _e('Go to this link to create your application: <a target="_blank" href="http://developers.facebook.com/setup.php">Facebook Connect Setup</a>', 'sfc'); ?></li>
+<li><?php _e('When it tells you to "Upload a file" on step 2, just hit the "Upload Later" button. This plugin takes care of that part for you!', 'sfc'); ?></li>
+<li><?php _e('On the final screen, there will be an API Key field, in the yellow box. Copy and paste that information into here.', 'sfc'); ?></li>
+<li><?php _e('You can get the rest of the information from the application on the 
+<a target="_blank" href="http://www.facebook.com/developers/apps.php">Facebook Application List</a> page.', 'sfc'); ?></li>
+<li><?php _e('Select the application you want, then copy and paste the API key, Application Secret, and Application ID from there.', 'sfc'); ?></li>
+</ol>
+<?php
 		// look for an FBFoundations key if we dont have one of our own, 
 		// to better facilitate switching from that plugin to this one.
 		$fbfoundations_settings = get_option('fbfoundations_settings');
@@ -110,17 +154,13 @@ function sfc_section_text() {
 		$fb=new Facebook($options['api_key'], $options['app_secret']);
 
 		$error = false;
-		$a = null;
-		$connecturl = null;
 		
 		try {
     		$a = $fb->api_client->admin_getAppProperties(array('connect_url'));
 		} catch (Exception $e) {
 		    // bad API key or secret or something
 		    $error=true;
-		    echo '<p class="error">' . __('Facebook doesn\'t like your settings, it says', 'sfc') . ': ';
-		    echo $e->getMessage();
-		    echo '.</p>';
+				echo '<p class="error">'.__('Facebook doesn\'t like your settings, it says:', 'sfc').' ' . $e->getMessage() . '.</p>';
 		}
 		
 		if (is_array($a)) {
@@ -129,17 +169,18 @@ function sfc_section_text() {
 			$connecturl = $a->connect_url;
 		}
 		
-		if (!defined('SFC_IGNORE_ERRORS') && !empty($connecturl)) {
+		if (!SFC_IGNORE_ERRORS && !empty($connecturl)) {
 			$siteurl = trailingslashit(get_option('siteurl'));
 			if (@strpos($siteurl, $connecturl) === false) {
 				$error = true;
-				echo '<p class="error">' . __('Your Facebook Application\'s "Connect URL" is configured incorrectly. It is currently set to','sfc') . ' "'. 
-				$connecturl . "\" " . __('when it should be set to') . " \"{$siteurl}\" .</p>";
+				echo '<p class="error">';
+				sprintf(__('Your Facebook Application\'s "Connect URL" is configured incorrectly. It is currently set to %1$s when it should be set to "%2$s"', 'sfc'), $connecturl, $siteurl);
+		    echo '.</p>';
 			}
 
 			if ($error) {
 ?>
-<p class="error"><?php echo sprintf( __('To correct these errors, you may need to <a href="http://www.facebook.com/developers/editapp.php?app_id=%s" target="_blank">edit your applications settings</a> and correct the values therein. The site will not work properly until the errors are corrected.','sfc'), $options['appid']) ?></p>
+<p class="error"><?php sprintf(__('To correct these errors, you may need to <a href="http://www.facebook.com/developers/editapp.php?app_id=%s">edit your applications settings</a> and correct the values therein. The site will not work properly until the errors are corrected.', 'sfc'), $options['appid']); ?></p>
 <?php
 			}
 		}
@@ -159,34 +200,37 @@ add_filter('option_sfc_options', 'sfc_override_options');
 function sfc_setting_api_key() {
 	if (defined('SFC_API_KEY')) return;
 	$options = get_option('sfc_options');
-	echo "<input type='text' id='sfcapikey' name='sfc_options[api_key]' value='{$options['api_key']}' size='40' /> (".__('required', 'sfc').")";	
+	echo "<input type='text' id='sfcapikey' name='sfc_options[api_key]' value='{$options['api_key']}' size='40' /> ";
+	_e('(required)', 'sfc');	
 }
 function sfc_setting_app_secret() {
 	if (defined('SFC_APP_SECRET')) return;
 	$options = get_option('sfc_options');
-	echo "<input type='text' id='sfcappsecret' name='sfc_options[app_secret]' value='{$options['app_secret']}' size='40' /> (".__('required', 'sfc').")";	
+	echo "<input type='text' id='sfcappsecret' name='sfc_options[app_secret]' value='{$options['app_secret']}' size='40' /> ";
+	_e('(required)', 'sfc');	
 }
 function sfc_setting_appid() {
 	if (defined('SFC_APP_ID')) return;
 	$options = get_option('sfc_options');
-	echo "<input type='text' id='sfcappid' name='sfc_options[appid]' value='{$options['appid']}' size='40' /> (".__('required', 'sfc').")";
-	$_url = "http://www.facebook.com/apps/application.php?id={$options['appid']}&amp;v=wall";
-	if (!empty($options['appid'])) echo sprintf( __("<p>Here is a <a href='%s'>link to your applications wall</a>. There you can give it a name, upload a profile picture, things like that. Look for the \"Edit Application\" link to modify the application.</p>", 'sfc') , $_url);	
+	echo "<input type='text' id='sfcappid' name='sfc_options[appid]' value='{$options['appid']}' size='40' /> ";
+	_e('(required)', 'sfc');	
+	if (!empty($options['appid'])) printf(__('<p>Here is a <a href=\'http://www.facebook.com/apps/application.php?id=%s&amp;v=wall\'>link to your applications wall</a>. There you can give it a name, upload a profile picture, things like that. Look for the "Edit Application" link to modify the application.</p>', 'sfc'), $options['appid']);	
 }
 function sfc_setting_fanpage() {
 	if (defined('SFC_FANPAGE')) return;
-	$options = get_option('sfc_options');
+	$options = get_option('sfc_options'); ?>
 
-_e('<p>Some sites use Fan Pages on Facebook to connect with their users. The Application wall acts as a 
+<p><?php _e('Some sites use Fan Pages on Facebook to connect with their users. The Application wall acts as a 
 Fan Page in all respects, however some sites have been using Fan Pages previously, and already have 
 communities and content built around them. Facebook offers no way to migrate these, so the option to 
 use an existing Fan Page is offered for people with this situation. Note that this doesn\'t <em>replace</em> 
 the application, as that is not optional. However, you can use a Fan Page for specific parts of the 
-SFC plugin, such as the Fan Box, the Publisher, and the Chicklet.</p>', 'sfc');
+SFC plugin, such as the Fan Box, the Publisher, and the Chicklet.', 'sfc'); ?></p>
 
-_e('<p>If you have a <a href="http://www.facebook.com/pages/manage/">Fan Page</a> that you want to use for 
-your site, enter the ID of the page here. Most users should leave this blank.</p>', 'sfc');
+<p><?php _e('If you have a <a href="http://www.facebook.com/pages/manage/">Fan Page</a> that you want to use for 
+your site, enter the ID of the page here. Most users should leave this blank.', 'sfc'); ?></p>
 
+<?php
 	echo "<input type='text' id='sfcfanpage' name='sfc_options[fanpage]' value='{$options['fanpage']}' size='40' />";
 }
 

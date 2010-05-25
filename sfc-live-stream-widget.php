@@ -4,7 +4,7 @@ Plugin Name: SFC - Live Stream Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Create a Live Stream in your site's sidebar, allowing users to chat in real-time.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -34,7 +34,7 @@ function sfc_live_stream_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_live_stream_activation_check');
 
@@ -64,8 +64,8 @@ add_shortcode('fb-livestream', 'sfc_live_stream_shortcode');
 
 class SFC_Live_Stream_Widget extends WP_Widget {
 	function SFC_Live_Stream_Widget() {
-		$widget_ops = array('classname' => 'widget_sfc-livestream', 'description' => 'Facebook Live Stream');
-		$this->WP_Widget('sfc-livestream', 'Facebook Live Stream (SFC)', $widget_ops);
+		$widget_ops = array('classname' => 'widget_sfc-livestream', 'description' => __('Facebook Live Stream', 'sfc'));
+		$this->WP_Widget('sfc-livestream', __('Facebook Live Stream (SFC)', 'sfc'), $widget_ops);
 	}
 
 	function widget($args, $instance) {
@@ -104,10 +104,10 @@ class SFC_Live_Stream_Widget extends WP_Widget {
 <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> 
 <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
 </label></p>
-<p><label for="<?php echo $this->get_field_id('width'); ?>">Width of the widget in pixels (minimum 200):
+<p><label for="<?php echo $this->get_field_id('width'); ?>"><?php _e('Width of the widget in pixels (minimum 200):', 'sfc'); ?>
 <input class="widefat" id="<?php echo $this->get_field_id('width'); ?>" name="<?php echo $this->get_field_name('width'); ?>" type="text" value="<?php echo $width; ?>" />
 </label></p>
-<p><label for="<?php echo $this->get_field_id('height'); ?>">Height of the widget in pixels (minimum 400):
+<p><label for="<?php echo $this->get_field_id('height'); ?>"><?php _e('Height of the widget in pixels (minimum 400):', 'sfc'); ?>
 <input class="widefat" id="<?php echo $this->get_field_id('height'); ?>" name="<?php echo $this->get_field_name('height'); ?>" type="text" value="<?php echo $height; ?>" />
 </label></p>
 

@@ -4,7 +4,7 @@ Plugin Name: SFC - Comments
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Allow users to leave comments using their Facebook info (without their logging into WordPress itself).
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -43,12 +43,12 @@ Hopefully, a future version of WordPress will make this simpler.
 
 */
 
-add_action('admin_init','sfc_comm_error_check');
-function sfc_comm_error_check() {
-	if ( get_option( 'comment_registration' ) ) {
-		add_action('admin_notices', create_function( '', "echo '<div class=\"error\"><p>SFC-Comments doesn\'t work with sites that require registration to comment. Use SFC-Login and SFC-Register to allow users to register on your site.</p></div>';" ) );
-	}
-}
+add_action('admin_init','sfc_comm_error_check'); 
+function sfc_comm_error_check() { 
+      if ( get_option( 'comment_registration' ) ) { 
+            add_action('admin_notices', create_function( '', "_e('<div class=\"error\"><p>SFC-Comments doesn\'t work with sites that require registration to comment. Use SFC-Login and SFC-Register to allow users to register on your site.</p></div>','sfc');" ) );
+      } 
+} 
 
 // if you don't want the plugin to ask for email permission, ever, then define this to true in your wp-config
 if ( !defined('SFC_DISABLE_EMAIL_PERMISSION') )
@@ -63,7 +63,7 @@ function sfc_comm_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_comm_activation_check');
 
@@ -112,10 +112,10 @@ function sfc_update_user_details() {
 	if (!jQuery('#fb-user').length) {
 		jQuery('#comment-user-details').hide().after("<span id='fb-user'>" +
 		"<fb:profile-pic uid='loggedinuser' facebook-logo='true' size='normal' height='96'></fb:profile-pic>" +
-		"<span id='fb-msg'><strong><fb:intl>Hi</fb:intl> <fb:name uid='loggedinuser' useyou='false'></fb:name>!</strong><br /><fb:intl>You are connected with your Facebook account.</fb:intl>" +
-		"<a href='#' onclick='FB.Connect.logoutAndRedirect(\"<?php the_permalink() ?>\"); return false;'>Logout</a>" +
+		"<span id='fb-msg'><strong><fb:intl><?php echo addslashes(__('Hi', 'sfc')); ?></fb:intl> <fb:name uid='loggedinuser' useyou='false'></fb:name>!</strong><br /><fb:intl><?php echo addslashes(__('You are connected with your Facebook account.', 'sfc')); ?></fb:intl>" +
+		"<a href='#' onclick='FB.Connect.logoutAndRedirect(\"<?php the_permalink() ?>\"); return false;'> <?php echo addslashes(__('Logout', 'sfc')); ?></a>" +
 		"</span></span>");
-		jQuery('#sfc_comm_send').html('<input style="width: auto;" type="checkbox" id="sfc_comm_share" /><label for="sfc_comm_send"><fb:intl>Share Comment on Facebook</fb:intl></label>');
+		jQuery('#sfc_comm_send').html('<input style="width: auto;" type="checkbox" id="sfc_comm_share" /><label for="sfc_comm_send"><fb:intl><?php echo addslashes(__('Share Comment on Facebook', 'sfc')); ?></fb:intl></label>');
 	}
 
 	// Refresh the DOM
@@ -155,11 +155,11 @@ function sfc_get_email_perms() {
 					if (perms.match("email")) {
 						sfc_commentform_submit();
 					} else {
-						var dialog = FB.UI.FBMLPopupDialog('Email required', '');
+						var dialog = FB.UI.FBMLPopupDialog('<?php echo addslashes(__('Email required', 'sfc')); ?>', '');
 						var fbml='\
 <div id="fb_dialog_content" class="fb_dialog_content">\
 	<div class="fb_confirmation_stripes"></div>\
-	<div class="fb_confirmation_content"><p>This site requires permission to get your email address for you to leave a comment. You can not leave a comment without granting that permission.</p></div>\
+	<div class="fb_confirmation_content"><p><?php echo addslashes(__('This site requires permission to get your email address for you to leave a comment. You can not leave a comment without granting that permission.', 'sfc')); ?></p></div>\
 </div>';
 						dialog.setFBMLContent(fbml);
 						dialog.setContentWidth(540); 
@@ -259,7 +259,7 @@ add_action('alt_comment_login','sfc_comm_login_button');
 add_action('comment_form_before_fields', 'sfc_comm_login_button',10,0); // WP 3.0 support
 
 function sfc_comm_login_button() {
-	echo '<p><fb:login-button v="2" perms="email" onlogin="sfc_update_user_details();"><fb:intl>Connect with Facebook</fb:intl></fb:login-button></p>';
+	echo '<p><fb:login-button v="2" perms="email" onlogin="sfc_update_user_details();"><fb:intl>'.__('Connect with Facebook', 'sfc').'</fb:intl></fb:login-button></p>';
 }
 
 // this exists so that other plugins can hook into the same place to add their login buttons

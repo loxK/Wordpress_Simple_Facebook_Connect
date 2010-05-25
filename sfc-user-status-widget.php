@@ -4,7 +4,7 @@ Plugin Name: SFC - User Status Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Display your FB User Status in the sidebar, simply.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -34,7 +34,7 @@ function sfc_user_status_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_user_status_activation_check');
 
@@ -64,8 +64,8 @@ add_shortcode('fb-userstatus', 'sfc_userstatus_shortcode');
 
 class SFC_User_Status_Widget extends WP_Widget {
 	function SFC_User_Status_Widget() {
-		$widget_ops = array('classname' => 'widget_sfc-status', 'description' => 'Facebook User Status (needs user profile number)' );
-		$this->WP_Widget('sfc-userstatus', 'Facebook Status (SFC)', $widget_ops);
+		$widget_ops = array('classname' => 'widget_sfc-status', 'description' => __('Facebook User Status (needs user profile number)', 'sfc') );
+		$this->WP_Widget('sfc-userstatus', __('Facebook Status (SFC)', 'sfc'), $widget_ops);
 	}
 
 	function widget($args, $instance) {
@@ -91,13 +91,13 @@ class SFC_User_Status_Widget extends WP_Widget {
 <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> 
 <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
 </label></p>
-<p><label for="<?php echo $this->get_field_id('profileid'); ?>">Facebook User Profile Number:
+<p><label for="<?php echo $this->get_field_id('profileid'); ?>"><?php _e('Facebook User Profile Number:', 'sfc'); ?>
 <input class="widefat" id="<?php echo $this->get_field_id('profileid'); ?>" name="<?php echo $this->get_field_name('profileid'); ?>" type="text" value="<?php echo $profileid; ?>" />
 </label></p>
 <?php 
 		$fbuid = sfc_get_user();
 		if ($fbuid) { ?>
-<p>Your User Profile Number is <?php echo $fbuid; ?>.</p>
+<p><?php printf(__('Your User Profile Number is %s.', 'sfc'), $fbuid);</p>
 		<?php
 		}
 	}

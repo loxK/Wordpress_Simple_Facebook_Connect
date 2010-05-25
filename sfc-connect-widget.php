@@ -4,7 +4,7 @@ Plugin Name: SFC - Connect Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Shows a "Connect with Facebook" button in the sidebar which will log you into the site (should be used with SFC-Login plugin).
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -34,7 +34,7 @@ function sfc_connect_widget_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_connect_widget_activation_check');
 
@@ -47,15 +47,15 @@ function sfc_connect_shortcode() {
 		$login .= 'onlogin="window.location=\''. wp_login_url() . "?redirect_to='+document.URL;\"";
 	}
 	
-	$login .= '><fb:intl></fb:intl></fb:login-button>';
+	$login .= '><fb:intl>'.__('Connect with Facebook', 'sfc').'</fb:intl></fb:login-button>';
 	return $login;
 }
 add_shortcode('fb-connect', 'sfc_connect_shortcode');
 
 class SFC_Connect_Widget extends WP_Widget {
 	function SFC_Connect_Widget() {
-		$widget_ops = array('classname' => 'widget_sfc-connect', 'description' => 'Facebook Connect');
-		$this->WP_Widget('sfc-connect', 'Facebook Connect (SFC)', $widget_ops);
+		$widget_ops = array('classname' => 'widget_sfc-connect', 'description' => __('Facebook Connect', 'sfc'));
+		$this->WP_Widget('sfc-connect', __('Facebook Connect (SFC)', 'sfc'), $widget_ops);
 	}
 
 	function widget($args, $instance) {

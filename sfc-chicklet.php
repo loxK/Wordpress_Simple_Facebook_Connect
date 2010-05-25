@@ -4,7 +4,7 @@ Plugin Name: SFC - Chicklet
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Creates a chicklet for showing fan count of your app/page on FB.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -36,7 +36,7 @@ function sfc_chicklet_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_chicklet_activation_check');
 
@@ -128,17 +128,17 @@ function sfc_chicklet($id = 0) {
 <?php } ?>
 <div class="fanBoxChicklet fanBoxChicklet-<?php echo $id; ?>">
 <p class="quantity"><?php echo $fancount; ?></p>
-<p class="readerCaption"><a href="<?php echo $pageurl; ?>" class="feedCountLink" target="_blank">Fans</a></p>
+<p class="readerCaption"><a href="<?php echo $pageurl; ?>" class="feedCountLink" target="_blank"><?php _e('Fans', 'sfc'); ?></a></p>
 </div>
-<div class="fanBoxBy">ON FACEBOOK</div>  
+<div class="fanBoxBy"><?php _e('ON FACEBOOK', 'sfc'); ?></div>  
 <?php
 }
 
 
 class SFC_Chicklet_Widget extends WP_Widget {
 	function SFC_Chicklet_Widget() {
-		$widget_ops = array('classname' => 'widget_sfc-chicklet', 'description' => 'Facebook Chicklet' );
-		$this->WP_Widget('sfc-chicklet', 'Facebook Chicklet', $widget_ops);
+		$widget_ops = array('classname' => 'widget_sfc-chicklet', 'description' => __('Facebook Chicklet', 'sfc'));
+		$this->WP_Widget('sfc-chicklet', __('Facebook Chicklet', 'sfc'), $widget_ops);
 	}
 
 	function widget($args, $instance) {

@@ -4,7 +4,7 @@ Plugin Name: SFC - Find us on Facebook Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Adds a "Find us on Facebook" image to your sidebar, with a link to your Facebook Page.
 Author: Otto
-Version: 0.21
+Version: 0.22
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -34,7 +34,7 @@ function sfc_find_widget_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die(__('The base SFC plugin must be activated before this plugin will run.', 'sfc'));
 }
 register_activation_hook(__FILE__, 'sfc_find_widget_activation_check');
 
@@ -52,8 +52,8 @@ add_shortcode('fb-find', 'sfc_find_shortcode');
 
 class SFC_Find_Widget extends WP_Widget {
 	function SFC_Find_Widget() {
-		$widget_ops = array('classname' => 'widget_sfc-find', 'description' => 'Find us on Facebook Button');
-		$this->WP_Widget('sfc-find', 'Facebook Find Button (SFC)', $widget_ops);
+		$widget_ops = array('classname' => 'widget_sfc-find', 'description' => __('Find us on Facebook Button', 'sfc'));
+		$this->WP_Widget('sfc-find', __('Facebook Find Button (SFC)', 'sfc'), $widget_ops);
 	}
 
 	function widget($args, $instance) {
