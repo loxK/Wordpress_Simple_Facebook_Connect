@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-26 10:13+1100\n"
-"PO-Revision-Date: 2010-05-26 11:11+1100\n"
+"PO-Revision-Date: 2010-05-26 12:23+1100\n"
 "Last-Translator: lox <lox@knc.nc>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -445,7 +445,7 @@ msgstr "Accorder l'autorisation de publication"
 
 #: sfc-publish.php:112
 msgid "Fan Page Publish Permission Granted"
-msgstr "Accorder l'autorisation de publication sur la page des Fans"
+msgstr "Autorisation de publication sur la page des Fans accordée"
 
 #: sfc-publish.php:119
 msgid "Grant Offline Permission"
