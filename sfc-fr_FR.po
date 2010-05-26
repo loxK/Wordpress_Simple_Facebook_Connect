@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-26 12:30+1100\n"
-"PO-Revision-Date: 2010-05-26 12:32+1100\n"
+"PO-Revision-Date: 2010-05-26 12:42+1100\n"
 "Last-Translator: lox <lox@knc.nc>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -216,7 +216,7 @@ msgstr "CSS personalisé de la boîte des fans"
 
 #: sfc-fan-box-widget.php:165
 msgid "Use this area to add any custom CSS you like to the Facebook Fan Box display."
-msgstr "Utilisez ce champs pour ajouter des styles CSS que vous souhaitez pour l'affichage de la boîte des fans."
+msgstr "Utilisez ce champs pour ajouter les styles CSS que vous souhaitez pour l'affichage de la boîte des fans."
 
 #: sfc-activity-feed-widget.php:78
 msgid "Facebook Activity Feed"
@@ -431,11 +431,11 @@ msgstr "Publier automatiquement sur le profil Facebook:"
 msgid ""
 "In order for the SFC-Publish plugin to be able to publish your posts automatically, you must grant some \"Extended Permissions\"\n"
 "to the plugin."
-msgstr "Afin que le plugin SFC-Publieur puisse publier vos articles automatiquement sur Facebook, vous devez autoriser des \"Autorisations étendues\" pour le plugin."
+msgstr "Afin que le plugin SFC-Publieur puisse publier vos articles automatiquement sur Facebook, vous devez accorder des \"Autorisations étendues\" pour le plugin."
 
 #: sfc-publish.php:86
 msgid "Offline Permission is needed to access your Page as if you were publishing manually."
-msgstr "L'autorisation étendue \"hors-ligne\" est nécessaire pour accéder à votre page comme si vous publiez manuellement."
+msgstr "L'autorisation étendue \"hors-ligne\" est nécessaire pour accéder à votre Page comme si vous publiez manuellement."
 
 #: sfc-publish.php:87
 msgid "Publish Permission is needed to publish stories to the stream automatically."
@@ -493,7 +493,7 @@ msgstr "Publier sur Facebook"
 
 #: sfc-publish.php:263
 msgid "Publish to your Facebook Profile"
-msgstr "Publier sur votre profile Facebook"
+msgstr "Publier sur votre profil Facebook"
 
 #: sfc-publish.php:274
 msgid "If you can see this, then there is some form of problem showing you the Facebook publishing buttons. This may be caused by a plugin conflict or some form of bad javascript on this page. Try reloading or disabling other plugins to find the source of the problem."
@@ -649,7 +649,7 @@ msgstr ""
 "Certains sites utilisent les Pages de Fans sur Facebook pour se connecter à leurs utilisateurs. Le mur de l'Application peut entièrement \n"
 "servir de page de fans en tous points, mais, certains sites utilisent les Pages de Fans depuis avant cette fonctionnalité et ont ainsi déjà \n"
 "des communautés et des contenus construits autour. Facebook n'offrant aucune possibilté de migrer ces pages vers des applications, \n"
-"la possibilité d'utiliser une Page de Fans existante est ainsi offerte aux gens dans cette situation. Notez que cela ne remplace pas \n"
+"la possibilité d'utiliser une Page de Fans existante est ainsi offerte aux personnes dans cette situation. Notez que cela ne remplace pas \n"
 "l'utilisation d'une application, car ce n'est pas optionnel. Mais, vous pouvez utiliser une Page de Fan pour certaines fonctionnalités spécifiques \n"
 "de SFC, comme la Boîte de Fans, le Publieur, et le Chicklet."
 
@@ -658,7 +658,7 @@ msgid ""
 "If you have a <a href=\"http://www.facebook.com/pages/manage/\">Fan Page</a> that you want to use for \n"
 "your site, enter the ID of the page here. Most users should leave this blank."
 msgstr ""
-"<p>Si vous avez une <a href=\"http://www.facebook.com/pages/manage/\">Page de Fans</a> que vous souhaitez  pour \n"
+"<p>Si vous avez une <a href=\"http://www.facebook.com/pages/manage/\">Page de Fans</a> que vous souhaitez utiliser pour \n"
 "votre site, renseignez son ID ici. La plupart des utilisateurs laisseront ce champs vide.</p>"
 
 #: views/section_text.php:9
