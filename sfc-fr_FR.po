@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-26 10:13+1100\n"
-"PO-Revision-Date: 2010-05-26 12:23+1100\n"
+"POT-Creation-Date: 2010-05-26 12:30+1100\n"
+"PO-Revision-Date: 2010-05-26 12:32+1100\n"
 "Last-Translator: lox <lox@knc.nc>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -404,37 +404,52 @@ msgstr "Permission étendues"
 msgid "Settings for the SFC-Publish plugin. The manual Facebook Publishing buttons can be found on the Edit Post or Edit Page screen, after you publish a post. If you can't find them, try scrolling down or seeing if you have the box disabled in the Options dropdown."
 msgstr "Paramètres pour le plugin SFC-Publieur. Les boutons pour publier manuellement  apparaissent sur les pages d'édition des articles et des pages, après leur publication. Si vous ne les trouvez pas, essayez de faire défiler la page, ou de vérifiez que la boîte n'est pas désactivée dans les paramètres."
 
-#: sfc-publish.php:70
+#: sfc-publish.php:67
+#, php-format
+msgid "Automatically Publish to Facebook %s"
+msgstr "Publier automatiquement sur %s Facebook"
+
+#: sfc-publish.php:67
+#: sfc-publish.php:263
+msgid "Fan Page"
+msgstr "Page de fans"
+
+#: sfc-publish.php:67
+#: sfc-publish.php:263
+msgid "Application"
+msgstr "Application"
+
+#: sfc-publish.php:69
 msgid "(Note: This does not work due to a <a href=\"http://bugs.developers.facebook.com/show_bug.cgi?id=8184\">Facebook bug</a>.)"
 msgstr "(Note: Ceci ne fonctionne pas à cause d'un <a href=\"http://bugs.developers.facebook.com/show_bug.cgi?id=8184\">bug Facebook</a>.)"
 
-#: sfc-publish.php:72
+#: sfc-publish.php:71
 msgid "Automatically Publish to Facebook Profile:"
 msgstr "Publier automatiquement sur le profil Facebook:"
 
-#: sfc-publish.php:84
+#: sfc-publish.php:83
 msgid ""
 "In order for the SFC-Publish plugin to be able to publish your posts automatically, you must grant some \"Extended Permissions\"\n"
 "to the plugin."
 msgstr "Afin que le plugin SFC-Publieur puisse publier vos articles automatiquement sur Facebook, vous devez autoriser des \"Autorisations étendues\" pour le plugin."
 
-#: sfc-publish.php:87
+#: sfc-publish.php:86
 msgid "Offline Permission is needed to access your Page as if you were publishing manually."
 msgstr "L'autorisation étendue \"hors-ligne\" est nécessaire pour accéder à votre page comme si vous publiez manuellement."
 
-#: sfc-publish.php:88
+#: sfc-publish.php:87
 msgid "Publish Permission is needed to publish stories to the stream automatically."
 msgstr "L'autorisation de publication est nécessaire pour publier des articles automatiquement."
 
-#: sfc-publish.php:90
+#: sfc-publish.php:89
 msgid "Fan Page Publish Permission is needed to publish stories to the Fan Page automatically."
 msgstr "L'autorisation \"page de fans\" est nécessaire pour publier des articles sur votre page de fans automatiquement."
 
-#: sfc-publish.php:94
+#: sfc-publish.php:93
 msgid "User ID and Session Key found! Automatic publishing is ready to go!"
 msgstr "L'ID utilisateur et la clé de Session on été trouvés! La publication automatique est prête à fonctionner!"
 
-#: sfc-publish.php:96
+#: sfc-publish.php:95
 msgid "Be sure to click the \"Save Settings\" button on this page after granting these permissions! This will allow SFC to save your user id and session key, for usage by the plugin when publishing posts to your profile and/or page."
 msgstr "Pensez à cliquer le bouton\"Enregistrer les modfications\" au bas de la page après avoir accordé ces autorisations. Cela permettra à SFC d'enregistrer votre ID utilisateur et la clé de session pour les utiliser lors de la publication d'articles sur votre profil et/ou page."
 
@@ -475,14 +490,6 @@ msgstr "Après avoir publié l'article, vous pourrez l'envoyer sur facebook d'ic
 #: sfc-publish.php:263
 msgid "Publish to Facebook"
 msgstr "Publier sur Facebook"
-
-#: sfc-publish.php:263
-msgid "Fan Page"
-msgstr "Page de fans"
-
-#: sfc-publish.php:263
-msgid "Application"
-msgstr "Application"
 
 #: sfc-publish.php:263
 msgid "Publish to your Facebook Profile"
