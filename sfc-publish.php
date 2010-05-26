@@ -99,6 +99,7 @@ to the plugin.', 'sfc'); ?></p>
 FB.ensureInit(function () {
 <?php 
 	if ($options['fanpage']) {
+		$add_auths = false;
 		try {
 			$result = $fb->api_client->users_hasAppPermission('publish_stream', $options['fanpage']);
 			if (!$result) $add_auths=true;
