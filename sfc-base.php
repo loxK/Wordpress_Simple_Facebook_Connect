@@ -9,7 +9,7 @@ load_plugin_textdomain('sfc', false, dirname(plugin_basename(__FILE__)));
 // load the FB script into the head 
 add_action('wp_enqueue_scripts','sfc_featureloader');
 function sfc_featureloader() {
-	if ($_SERVER['HTTPS'] == 'on')
+	if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
 		wp_enqueue_script( 'fb-featureloader', 'https://ssl.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/'.get_locale(), array(), '0.4', false);
 	else
 		wp_enqueue_script( 'fb-featureloader', 'http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/'.get_locale(), array(), '0.4', false);
@@ -169,7 +169,7 @@ If you have already created one, please insert your API key, Application Secret,
 			$connecturl = $a->connect_url;
 		}
 		
-		if (!SFC_IGNORE_ERRORS && !empty($connecturl)) {
+		if ( (!defined('SFC_IGNORE_ERRORS') || !SFC_IGNORE_ERRORS) && !empty($connecturl)) {
 			$siteurl = trailingslashit(get_option('siteurl'));
 			if (@strpos($siteurl, $connecturl) === false) {
 				$error = true;

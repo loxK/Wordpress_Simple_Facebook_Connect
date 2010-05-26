@@ -167,7 +167,7 @@ function sfc_fanbox_section_callback() {
 
 function sfc_fanbox_css_callback() {
 	$options = get_option('sfc_options');
-	if (!$options['fanbox_css']) $options['fanbox_css'] = ''; 
+	if (!isset($options['fanbox_css']) || !$options['fanbox_css']) $options['fanbox_css'] = ''; 
 	/* good default CSS to use:
 
 	.connect_widget .connect_widget_facebook_logo_menubar {
