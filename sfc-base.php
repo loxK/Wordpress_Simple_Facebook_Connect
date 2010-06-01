@@ -174,13 +174,13 @@ If you have already created one, please insert your API key, Application Secret,
 			if (@strpos($siteurl, $connecturl) === false) {
 				$error = true;
 				echo '<p class="error">';
-				sprintf(__('Your Facebook Application\'s "Connect URL" is configured incorrectly. It is currently set to %1$s when it should be set to "%2$s"', 'sfc'), $connecturl, $siteurl);
-		    echo '.</p>';
+				echo sprintf(__('Your Facebook Application\'s "Connect URL" is configured incorrectly. It is currently set to %1$s when it should be set to "%2$s"', 'sfc'), $connecturl, $siteurl);
+		        echo '.</p>';
 			}
 
 			if ($error) {
 ?>
-<p class="error"><?php sprintf(__('To correct these errors, you may need to <a href="http://www.facebook.com/developers/editapp.php?app_id=%s">edit your applications settings</a> and correct the values therein. The site will not work properly until the errors are corrected.', 'sfc'), $options['appid']); ?></p>
+<p class="error"><?php echo sprintf(__('To correct these errors, you may need to <a href="http://www.facebook.com/developers/editapp.php?app_id=%s">edit your applications settings</a> and correct the values therein. The site will not work properly until the errors are corrected.', 'sfc'), $options['appid']); ?></p>
 <?php
 			}
 		}
